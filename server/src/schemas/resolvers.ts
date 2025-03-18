@@ -1,16 +1,14 @@
 //import models
 import User from "../models/User.js";
 import { AuthenticationError, signToken } from "../services/auth.js";
-import { BookDocument } from "../models/Book.js";
+import { PropertyDocument } from "../models/Property.js";
 
 
-interface addBookArgs { 
-    bookId:string, 
+interface addPropertyArgs { 
     title:string, 
-    authors:string[], 
     description:string, 
     image:string, 
-    link:string 
+    contact:string 
 }
 
 interface CreateUserArgs {
@@ -23,22 +21,16 @@ interface UserContext {
     username: string|null,
     _id: string|null
     email :string|null,
-    savedBooks: BookDocument[] 
+    savedProperties: PropertyDocument[] 
     
 }
-
-interface BookId{
-    bookId:string
-}
-
-
 
 
 const resolvers = {
     Query: {
         users: async () => {
             try {
-                return await User.find({}).populate('savedBooks')   
+                return await User.find({}).populate('savedProperties')   
             } catch (error) {
                 console.error('Error fetching school data', error);
                 throw new Error('Failed to fetch schools data');
@@ -68,6 +60,7 @@ const resolvers = {
         },
 
         login: async (_parent: unknown, { email, password }: {email:string; password:string}): Promise<{ token:string, user:CreateUserArgs }> => {
+            
             const user = await User.findOne({ email });
             
             if(!user) {
@@ -83,8 +76,8 @@ const resolvers = {
             const token = signToken(user.username, user.email, user._id)
             return { token, user }
         },
-
-        addBook: async (_parent:unknown, { bookId, title, authors, description, image, link } : addBookArgs, context: any ): Promise<UserContext | null> => {
+        /*
+        addProperty: async (_parent:unknown, { bookId, title, authors, description, image, link } : addBookArgs, context: any ): Promise<UserContext | null> => {
             if(context.user) {
                 return await User.findOneAndUpdate(
                   { _id: context.user._id },
@@ -94,7 +87,8 @@ const resolvers = {
             }
              
             throw new AuthenticationError("User not logged in")
-        },
+        },*/
+        /*
         removeBook: async (_parent:unknown, { bookId } : BookId, context: any ): Promise<UserContext | null> => {
             if(context.user) {
                 return await User.findOneAndUpdate(
@@ -105,7 +99,7 @@ const resolvers = {
             }
             throw AuthenticationError
         }
-
+        */
         
     }
 }
