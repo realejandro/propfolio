@@ -11,7 +11,7 @@ export interface UserDocument extends Document {
   password: string;
   savedProperties: PropertyDocument[];
   isCorrectPassword(password: string): Promise<boolean>;
-  bookCount: number;
+  propertyCount: number;
 }
 
 const userSchema = new Schema<UserDocument>(
