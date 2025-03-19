@@ -1,30 +1,13 @@
 //import models
 import User from "../models/User.js";
-import { AuthenticationError, signToken } from "../services/auth.js";
-import { PropertyDocument } from "../models/Property.js";
+import { signToken } from "../services/auth.js";
 
-
-interface addPropertyArgs { 
-    title:string, 
-    description:string, 
-    image:string, 
-    contact:string 
-}
 
 interface CreateUserArgs {
     username: string,
     email: string,
     password: string
 }
-
-interface UserContext {
-    username: string|null,
-    _id: string|null
-    email :string|null,
-    savedProperties: PropertyDocument[] 
-    
-}
-
 
 const resolvers = {
     Query: {
@@ -76,8 +59,8 @@ const resolvers = {
             const token = signToken(user.username, user.email, user._id)
             return { token, user }
         },
-        /*
-        addProperty: async (_parent:unknown, { bookId, title, authors, description, image, link } : addBookArgs, context: any ): Promise<UserContext | null> => {
+        
+        /*addProperty: async (_parent:unknown, { bookId, title, authors, description, image, link } : addBookArgs, context: any ): Promise<UserContext | null> => {
             if(context.user) {
                 return await User.findOneAndUpdate(
                   { _id: context.user._id },
@@ -87,7 +70,7 @@ const resolvers = {
             }
              
             throw new AuthenticationError("User not logged in")
-        },*/
+        },
         /*
         removeBook: async (_parent:unknown, { bookId } : BookId, context: any ): Promise<UserContext | null> => {
             if(context.user) {
