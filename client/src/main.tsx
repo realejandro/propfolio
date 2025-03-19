@@ -1,9 +1,8 @@
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import 'bootstrap/dist/css/bootstrap.min.css'
 
-import App from './App.jsx'
-import { HomePage } from './pages/HomePage.js'
+import App from './App.tsx'
+import { HomePage } from './pages/HomePage.tsx'
 import { LoginPage } from './pages/LoginPage.js'
 import { SignUpPage } from './pages/SignUpPage.js'
 

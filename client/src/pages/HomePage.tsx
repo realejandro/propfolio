@@ -1,7 +1,5 @@
-import React from 'react'
+import { HomeContainer } from '../components/containers/HomeContainer'
 
 export const HomePage = () => {
-  return (
-    <div>HomePage</div>
-  )
+  return <HomeContainer />
 }
