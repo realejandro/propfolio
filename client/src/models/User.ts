@@ -1,8 +1,8 @@
-import type { Book } from './Book';
+import type { Property } from './Property';
 
 export interface User {
   username: string | null;
   email: string | null;
   password: string | null;
-  savedBooks: Book[];
+  savedProperties: Property[];
 }
