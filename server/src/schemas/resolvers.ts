@@ -1,7 +1,7 @@
 import User from "../models/User.js";
 import Property from "../models/Property.js";
 import { signToken } from "../services/auth.js";
-import { AuthenticationError } from "apollo-server-express";
+import { AuthenticationError } from "../services/auth.js";
 
 // Define argument types for user and property mutations
 interface CreateUserArgs {
@@ -14,7 +14,7 @@ interface PropertyInput {
     squareFootage: number;
     bedrooms: number;
     bathrooms: number;
-    price: string;
+    price: number;
     status: string;
     photo?: string;
     description?: string;
