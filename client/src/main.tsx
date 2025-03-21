@@ -3,9 +3,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 import App from './App.jsx'
-import { HomePage } from './pages/HomePage.js'
-import { LoginPage } from './pages/LoginPage.js'
-import { SignUpPage } from './pages/SignUpPage.js'
+import HomePage from './pages/HomePage'
+import SignedIn from './pages/SignedIn'
 
 const router = createBrowserRouter([
   {
@@ -15,13 +14,11 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <HomePage/> 
-      }, {
-        path: '/login',
-        element: <LoginPage/>
-      },{
-        path:'/signup',
-        element: <SignUpPage/>
+        element: <HomePage />  // HomePage handles login & signup
+      },
+      {
+        path: '/dashboard',
+        element: <SignedIn />  // Signed-in page for managing properties
       }
     ]
   }
@@ -30,3 +27,4 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <RouterProvider router={router} />
 )
+
