@@ -1,31 +1,21 @@
 import { useState } from 'react';
 import type { ChangeEvent, FormEvent } from 'react';
-import {
-  Box,
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  FormErrorMessage,
-  Alert,
-  AlertIcon,
-  CloseButton,
-  VStack,
-} from '@chakra-ui/react';
+import { Form, Button, Alert } from 'react-bootstrap';
 import { CREATE_USER } from '../utils/mutations';
+//import { createUser } from '../utils/API';
 import Auth from '../utils/auth';
 import type { User } from '../models/User';
 import { useMutation } from '@apollo/client';
 
+// biome-ignore lint/correctness/noEmptyPattern: <explanation>
 const SignupForm = ({}: { handleModalClose: () => void }) => {
-  const [userFormData, setUserFormData] = useState<User>({
-    username: '',
-    email: '',
-    password: '',
-    savedProperties: [],
-  });
+  // set initial form state
+  const [userFormData, setUserFormData] = useState<User>({ username: '', email: '', password: '', savedBooks: [] });
+  // set state for form validation
+  const [validated] = useState(false);
+  // set state for alert
   const [showAlert, setShowAlert] = useState(false);
-  const [createUser] = useMutation(CREATE_USER);
+  const [createUser] = useMutation(CREATE_USER)
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -35,9 +25,16 @@ const SignupForm = ({}: { handleModalClose: () => void }) => {
   const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    // check if form has everything (as per react-bootstrap docs)
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
     try {
       const { data } = await createUser({
-        variables: { ...userFormData },
+        variables: {...userFormData}
       });
 
       Auth.login(data.token);
@@ -50,86 +47,65 @@ const SignupForm = ({}: { handleModalClose: () => void }) => {
       username: '',
       email: '',
       password: '',
-      savedProperties: [],
+      savedBooks: [],
     });
   };
 
   return (
-    <Box as="form" onSubmit={handleFormSubmit} noValidate>
-      <VStack spacing={4} align="stretch">
-        {showAlert && (
-          <Alert status="error" borderRadius="md">
-            <AlertIcon />
-            Something went wrong with your signup!
-            <CloseButton
-              position="absolute"
-              right="8px"
-              top="8px"
-              onClick={() => setShowAlert(false)}
-            />
-          </Alert>
-        )}
+    <>
+      {/* This is needed for the validation functionality above */}
+      <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
+        {/* show alert if server response is bad */}
+        <Alert dismissible onClose={() => setShowAlert(false)} show={showAlert} variant='danger'>
+          Something went wrong with your signup!
+        </Alert>
 
-        <FormControl isRequired isInvalid={!userFormData.username}>
-          <FormLabel htmlFor="username">Username</FormLabel>
-          <Input
-            type="text"
-            id="username"
-            name="username"
-            placeholder="Your username"
-            value={userFormData.username}
+        <Form.Group className='mb-3'>
+          <Form.Label htmlFor='username'>Username</Form.Label>
+          <Form.Control
+            type='text'
+            placeholder='Your username'
+            name='username'
             onChange={handleInputChange}
+            value={userFormData.username || ''}
+            required
           />
-          {!userFormData.username && (
-            <FormErrorMessage>Username is required!</FormErrorMessage>
-          )}
-        </FormControl>
+          <Form.Control.Feedback type='invalid'>Username is required!</Form.Control.Feedback>
+        </Form.Group>
 
-        <FormControl isRequired isInvalid={!userFormData.email}>
-          <FormLabel htmlFor="email">Email</FormLabel>
-          <Input
-            type="email"
-            id="email"
-            name="email"
-            placeholder="Your email address"
-            value={userFormData.email}
+        <Form.Group className='mb-3'>
+          <Form.Label htmlFor='email'>Email</Form.Label>
+          <Form.Control
+            type='email'
+            placeholder='Your email address'
+            name='email'
             onChange={handleInputChange}
+            value={userFormData.email || ''}
+            required
           />
-          {!userFormData.email && (
-            <FormErrorMessage>Email is required!</FormErrorMessage>
-          )}
-        </FormControl>
+          <Form.Control.Feedback type='invalid'>Email is required!</Form.Control.Feedback>
+        </Form.Group>
 
-        <FormControl isRequired isInvalid={!userFormData.password}>
-          <FormLabel htmlFor="password">Password</FormLabel>
-          <Input
-            type="password"
-            id="password"
-            name="password"
-            placeholder="Your password"
-            value={userFormData.password}
+        <Form.Group className='mb-3'>
+          <Form.Label htmlFor='password'>Password</Form.Label>
+          <Form.Control
+            type='password'
+            placeholder='Your password'
+            name='password'
             onChange={handleInputChange}
+            value={userFormData.password || ''}
+            required
           />
-          {!userFormData.password && (
-            <FormErrorMessage>Password is required!</FormErrorMessage>
-          )}
-        </FormControl>
-
+          <Form.Control.Feedback type='invalid'>Password is required!</Form.Control.Feedback>
+        </Form.Group>
         <Button
-          type="submit"
-          colorScheme="green"
-          isDisabled={
-            !(
-              userFormData.username &&
-              userFormData.email &&
-              userFormData.password
-            )
-          }
-        >
+          disabled={!(userFormData.username && userFormData.email && userFormData.password)}
+          type='submit'
+          variant='success'>
           Submit
         </Button>
-      </VStack>
-    </Box>
+      </Form>
+    </>
   );
 };
 

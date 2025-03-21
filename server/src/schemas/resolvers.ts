@@ -15,7 +15,7 @@ interface PropertyInput {
     squareFootage: number;
     bedrooms: number;
     bathrooms: number;
-    price: string;
+    price: number;
     status: string;
     photo?: string;
     description?: string;
