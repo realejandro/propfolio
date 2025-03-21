@@ -1,9 +1,14 @@
 const typeDefs = `
     type Property {
-        title: String
+        _id: ID!
+        squareFootage: Int
+        bedrooms: Int
+        bathrooms: Int
+        price: String
+        status: String
+        photo: String
         description: String
-        image: String
-        content: String
+        userId: ID!
     }
 
     type User {
@@ -22,15 +27,30 @@ const typeDefs = `
     type Query {
         users: [User]
         me: User
+        getUserProperties(userId: ID!): [Property]
+    }
+
+    input PropertyInput {
+        squareFootage: Int!
+        bedrooms: Int!
+        bathrooms: Int!
+        price: String!
+        status: String!
+        photo: String
+        description: String
     }
 
     type Mutation {
-        createUser(username: String, email:String, password: String): Auth
-        login(email: String, password:String): Auth       
+        createUser(username: String!, email: String!, password: String!): Auth
+        login(email: String!, password: String!): Auth
+        addProperty(input: PropertyInput!): Property
+        updateProperty(id: ID!, input: PropertyInput!): Property
+        deleteProperty(id: ID!): Boolean
     }
-
 `
+
 export default typeDefs;
+
 /*
 addBook(bookId:String, title:String, authors:[String], description:String, image:String, link:String ): User
         removeBook(bookId:String): User

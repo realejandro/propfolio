@@ -1,31 +1,50 @@
-import { Schema, type Document } from 'mongoose';
+import { Schema, model, type Document } from 'mongoose';
 
 export interface PropertyDocument extends Document {
-  title: string;
-  description: string;
-  image: string;
-  contact: string;
+  squareFootage: number;
+  bedrooms: number;
+  bathrooms: number;
+  price: number;
+  status: string;
+  photo?: string;
+  description?: string;
+  userId: Schema.Types.ObjectId;
 }
 
-// This is a subdocument schema, it won't become its own model but we'll use it as the schema for the User's `savedBooks` array in User.js
 const propertySchema = new Schema<PropertyDocument>({
-  title: {
-    type: String,
+  squareFootage: {
+    type: Number,
     required: true,
+  },
+  bedrooms: {
+    type: Number,
+    required: true,
+  },
+  bathrooms: {
+    type: Number,
+    required: true,
+  },
+  price: {
+    type: Number,
+    required: true,
+  },
+  status: {
+    type: String,
+    enum: ['available', 'rented', 'sold'],
+    default: 'available',
+  },
+  photo: {
+    type: String,
   },
   description: {
     type: String,
+  },
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
     required: true,
   },
-  // saved book id from GoogleBooks
-  image: {
-    type: String,
-  },
-  contact: {
-    type:String
-  }
-  
 });
 
-
-export default propertySchema;
+const Property = model<PropertyDocument>('Property', propertySchema);
+export default Property;
