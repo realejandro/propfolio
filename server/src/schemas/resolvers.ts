@@ -10,6 +10,7 @@ interface CreateUserArgs {
     password: string
 }
 
+//
 interface PropertyInput {
     squareFootage: number;
     bedrooms: number;
