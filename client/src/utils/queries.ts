@@ -1,21 +1,39 @@
 import { gql } from "@apollo/client";
 
-
 export const QUERY_ME = gql`
- query me {
-  me {
-    _id
-    email
-    password
-    savedBooks {
-      link
-      image
-      description
-      bookId
-      authors
-      title
+  query Me {
+    me {
+      _id
+      username
+      email
+      savedProperties {
+        _id
+        squareFootage
+        bedrooms
+        bathrooms
+        price
+        status
+        photo
+        description
+        userId
+      }
     }
-    username
   }
-}
+`;
+
+
+export const QUERY_USER_PROPERTIES = gql`
+  query GetUserProperties($userId: ID!) {
+    getUserProperties(userId: $userId) {
+      _id
+      squareFootage
+      bedrooms
+      bathrooms
+      price
+      status
+      photo
+      description
+      userId
+    }
+  }
 `;

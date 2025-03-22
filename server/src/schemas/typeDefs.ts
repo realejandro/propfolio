@@ -4,7 +4,7 @@ const typeDefs = `
         squareFootage: Int
         bedrooms: Int
         bathrooms: Int
-        price: String
+        price: Int
         status: String
         photo: String
         description: String

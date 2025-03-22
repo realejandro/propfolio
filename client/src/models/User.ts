@@ -1,4 +1,4 @@
-import type { Property } from './Property';
+import type { Property } from './Property.js';
 
 export interface User {
   username: string | null;
