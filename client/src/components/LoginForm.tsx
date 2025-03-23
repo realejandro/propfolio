@@ -1,8 +1,8 @@
 //import type { ChangeEvent, FormEvent } from 'react';
 //import { loginUser } from '../utils/API';
 
-import { Box, Field, Fieldset, Flex, Input } from "@chakra-ui/react";
-import { Button, Stack } from "react-bootstrap";
+import { Box, Field, Fieldset, Input } from "@chakra-ui/react";
+import { Button } from "react-bootstrap";
 
 // biome-ignore lint/correctness/noEmptyPattern: <explanation>
 
@@ -15,15 +15,14 @@ const LoginForm = () => {
       <Box>
         <Fieldset.Root>
           <Field.Root>
-            <Field.Label css={{color:"white" }}>Email</Field.Label>
+            <Field.Label css={{color:"white"}}>Email</Field.Label>
             <Input name="name" type="email"/>
           </Field.Root>
 
           <Field.Root>
             <Field.Label css={{color:"white"}} >Password</Field.Label>
-            <Input name="password" type="password" />
+            <Input name="email" type="password" />
           </Field.Root>
-
             <Field.Root>
               <Button 
                 style={{
@@ -36,7 +35,8 @@ const LoginForm = () => {
                   Submit
               </Button>
             </Field.Root>
-         
+            
+          
         </Fieldset.Root>
       </Box>
   );
