@@ -30,7 +30,7 @@ const propertySchema = new Schema<PropertyDocument>({
   },
   status: {
     type: String,
-    enum: ['available', 'sold'],
+    enum: ['available', 'rented', 'sold'],
     default: 'available',
   },
   photo: {

@@ -7,6 +7,7 @@ import {
   Fieldset,
   Field,
   Alert,
+  NativeSelect,
 } from '@chakra-ui/react';
 import { useToast } from '@chakra-ui/toast';
 import { useMutation } from '@apollo/client';
@@ -16,6 +17,15 @@ import { PropertyInput } from '../models/Property';
 interface AddPropertyFormProps {
   onPropertyAdded?: () => void; // Optional callback
 }
+
+// Predefined image options for the photo field
+const predefinedImages = [
+  '/assets/images/house1.jpg',
+  '/assets/images/house2.jpg',
+  '/assets/images/apartment1.jpg',
+  '/assets/images/apartment2.jpg',
+  '/assets/images/house3.jpg',
+];
 
 const AddPropertyForm = ({ onPropertyAdded }: AddPropertyFormProps) => {
   const toast = useToast();
@@ -32,11 +42,11 @@ const AddPropertyForm = ({ onPropertyAdded }: AddPropertyFormProps) => {
 
   const [addProperty, { error }] = useMutation(ADD_PROPERTY);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormState((prev) => ({
       ...prev,
-      [name]: name === 'price' || name === 'squareFootage' || name === 'bedrooms' || name === 'bathrooms'
+      [name]: ['price', 'squareFootage', 'bedrooms', 'bathrooms'].includes(name)
         ? Number(value)
         : value,
     }));
@@ -55,7 +65,7 @@ const AddPropertyForm = ({ onPropertyAdded }: AddPropertyFormProps) => {
         isClosable: true,
       });
 
-      onPropertyAdded?.(); // Optional callback after mutation
+      onPropertyAdded?.();
 
       setFormState({
         squareFootage: 0,
@@ -109,8 +119,18 @@ const AddPropertyForm = ({ onPropertyAdded }: AddPropertyFormProps) => {
         </Field.Root>
 
         <Field.Root>
-          <Field.Label>Photo URL</Field.Label>
-          <Input type="text" name="photo" value={formState.photo} onChange={handleChange} placeholder="Optional" />
+          <Field.Label>Choose Photo</Field.Label>
+          <NativeSelect.Root>
+            <NativeSelect.Field name="photo" value={formState.photo} onChange={handleChange}>
+              <option value="">Select an image</option>
+              {predefinedImages.map((src, index) => (
+                <option key={index} value={src}>
+                  Image {index + 1}
+                </option>
+              ))}
+            </NativeSelect.Field>
+            <NativeSelect.Indicator />
+          </NativeSelect.Root>
         </Field.Root>
 
         <Field.Root>
@@ -127,5 +147,4 @@ const AddPropertyForm = ({ onPropertyAdded }: AddPropertyFormProps) => {
 };
 
 export default AddPropertyForm;
-
 
