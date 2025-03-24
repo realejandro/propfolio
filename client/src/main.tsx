@@ -3,8 +3,9 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 import App from './App.jsx'
-import HomePage from './pages/HomePage'
-import SignedIn from './pages/SignedIn'
+import { HomePage } from './pages/HomePage'
+import { SignedIn } from './pages/SignedIn'
+import { TestComponent } from './components/TestComponent.js'
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
       {
         path: '/dashboard',
         element: <SignedIn />  // Signed-in page for managing properties
+      },
+      {
+        path:'/test',
+        element:<TestComponent/> 
       }
     ]
   }
