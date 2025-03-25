@@ -12,6 +12,7 @@ interface CreateUserArgs {
 
 //
 interface PropertyInput {
+    location: string;
     squareFootage: number;
     bedrooms: number;
     bathrooms: number;

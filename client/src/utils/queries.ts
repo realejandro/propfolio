@@ -8,6 +8,7 @@ export const QUERY_ME = gql`
       email
       savedProperties {
         _id
+        location
         squareFootage
         bedrooms
         bathrooms
@@ -26,6 +27,7 @@ export const QUERY_USER_PROPERTIES = gql`
   query GetUserProperties($userId: ID!) {
     getUserProperties(userId: $userId) {
       _id
+      location
       squareFootage
       bedrooms
       bathrooms
