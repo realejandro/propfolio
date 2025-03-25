@@ -8,6 +8,7 @@ import {
   Field,
   Alert,
   NativeSelect,
+  Text,
 } from '@chakra-ui/react';
 import { useToast } from '@chakra-ui/toast';
 import { useMutation } from '@apollo/client';
@@ -15,10 +16,9 @@ import { ADD_PROPERTY } from '../utils/mutations';
 import { PropertyInput } from '../models/Property';
 
 interface AddPropertyFormProps {
-  onPropertyAdded?: () => void; // Optional callback
+  onPropertyAdded?: () => void;
 }
 
-// Predefined image options for the photo field
 const predefinedImages = [
   '/assets/images/house1.jpg',
   '/assets/images/house2.jpg',
@@ -40,20 +40,47 @@ const AddPropertyForm = ({ onPropertyAdded }: AddPropertyFormProps) => {
     description: '',
   });
 
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [addProperty, { error }] = useMutation(ADD_PROPERTY);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
-    setFormState((prev) => ({
-      ...prev,
-      [name]: ['price', 'squareFootage', 'bedrooms', 'bathrooms'].includes(name)
-        ? Number(value)
-        : value,
-    }));
+
+    if (["price", "squareFootage", "bedrooms", "bathrooms"].includes(name)) {
+      const parsed = parseInt(value);
+
+      if (isNaN(parsed) || parsed < 0 || value.includes('.')) {
+        setErrors((prev) => ({ ...prev, [name]: 'Please enter a positive whole number' }));
+      } else {
+        setErrors((prev) => ({ ...prev, [name]: '' }));
+        setFormState((prev) => ({ ...prev, [name]: parsed }));
+      }
+    } else {
+      setFormState((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const requiredFields = ["squareFootage", "bedrooms", "bathrooms", "price"];
+    let formIsValid = true;
+    const newErrors: { [key: string]: string } = {};
+
+    requiredFields.forEach((field) => {
+      const value = formState[field as keyof PropertyInput];
+      if (typeof value !== "number" || value < 0 || !Number.isInteger(value)) {
+        newErrors[field] = "Please enter a positive whole number";
+        formIsValid = false;
+      }
+    });
+
+    if (!formIsValid) {
+      setErrors(newErrors);
+      return;
+    }
 
     try {
       await addProperty({ variables: { input: formState } });
@@ -76,6 +103,7 @@ const AddPropertyForm = ({ onPropertyAdded }: AddPropertyFormProps) => {
         photo: '',
         description: '',
       });
+      setErrors({});
     } catch (err) {
       console.error(err);
     }
@@ -95,22 +123,54 @@ const AddPropertyForm = ({ onPropertyAdded }: AddPropertyFormProps) => {
 
         <Field.Root>
           <Field.Label>Square Footage</Field.Label>
-          <Input type="number" name="squareFootage" value={formState.squareFootage} onChange={handleChange} />
+          <Input
+            name="squareFootage"
+            value={formState.squareFootage}
+            onChange={handleChange}
+            type="text"
+            inputMode="numeric"
+            pattern="\\d*"
+          />
+          {errors.squareFootage && <Text color="red.500" fontSize="sm">{errors.squareFootage}</Text>}
         </Field.Root>
 
         <Field.Root>
           <Field.Label>Bedrooms</Field.Label>
-          <Input type="number" name="bedrooms" value={formState.bedrooms} onChange={handleChange} />
+          <Input
+            name="bedrooms"
+            value={formState.bedrooms}
+            onChange={handleChange}
+            type="text"
+            inputMode="numeric"
+            pattern="\\d*"
+          />
+          {errors.bedrooms && <Text color="red.500" fontSize="sm">{errors.bedrooms}</Text>}
         </Field.Root>
 
         <Field.Root>
           <Field.Label>Bathrooms</Field.Label>
-          <Input type="number" name="bathrooms" value={formState.bathrooms} onChange={handleChange} />
+          <Input
+            name="bathrooms"
+            value={formState.bathrooms}
+            onChange={handleChange}
+            type="text"
+            inputMode="numeric"
+            pattern="\\d*"
+          />
+          {errors.bathrooms && <Text color="red.500" fontSize="sm">{errors.bathrooms}</Text>}
         </Field.Root>
 
         <Field.Root>
           <Field.Label>Price</Field.Label>
-          <Input type="number" name="price" value={formState.price} onChange={handleChange} />
+          <Input
+            name="price"
+            value={formState.price}
+            onChange={handleChange}
+            type="text"
+            inputMode="numeric"
+            pattern="\\d*"
+          />
+          {errors.price && <Text color="red.500" fontSize="sm">{errors.price}</Text>}
         </Field.Root>
 
         <Field.Root>
@@ -147,4 +207,5 @@ const AddPropertyForm = ({ onPropertyAdded }: AddPropertyFormProps) => {
 };
 
 export default AddPropertyForm;
+
 
