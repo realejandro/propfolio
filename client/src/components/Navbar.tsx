@@ -19,6 +19,7 @@ const AppNavbar = () => {
                 css={{ backgroundColor: "rgba(0,0,0,0)", color: 'white'}}
                 onClick={ Auth.logout }
               >
+                
               Logout
               </Button>
             </> 

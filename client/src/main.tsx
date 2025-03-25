@@ -7,6 +7,7 @@ import { HomePage } from './pages/HomePage'
 import PropertyPage from './pages/PropertyPage'
 import  AddPropertyPage from './pages/AddPropertyPage'
 import TestPage from './pages/TestPage';
+import ContactPage from './pages/ContactPage';
 
 const router = createBrowserRouter([
 
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: '/test',
         element: <TestPage />, //Page to test components
+      },
+      {
+        path: '/contact',
+        element: <ContactPage /> //Page to contact us
       }
     ]
   }
