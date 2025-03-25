@@ -1,5 +1,3 @@
-import React from 'react'
-import { TestComponent } from '../components/TestComponent'
 import Auth from '../utils/auth'
 import { Box, Container, Image } from '@chakra-ui/react'
 

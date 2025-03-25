@@ -48,9 +48,8 @@ const AddPropertyForm = ({ onPropertyAdded }: AddPropertyFormProps) => {
   ) => {
     const { name, value } = e.target;
 
-    if (["price", "squareFootage", "bedrooms", "bathrooms"].includes(name)) {
+    if (['price', 'squareFootage', 'bedrooms', 'bathrooms'].includes(name)) {
       const parsed = parseInt(value);
-
       if (isNaN(parsed) || parsed < 0 || value.includes('.')) {
         setErrors((prev) => ({ ...prev, [name]: 'Please enter a positive whole number' }));
       } else {
@@ -65,14 +64,14 @@ const AddPropertyForm = ({ onPropertyAdded }: AddPropertyFormProps) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const requiredFields = ["squareFootage", "bedrooms", "bathrooms", "price"];
+    const requiredFields = ['squareFootage', 'bedrooms', 'bathrooms', 'price'];
     let formIsValid = true;
     const newErrors: { [key: string]: string } = {};
 
     requiredFields.forEach((field) => {
       const value = formState[field as keyof PropertyInput];
-      if (typeof value !== "number" || value < 0 || !Number.isInteger(value)) {
-        newErrors[field] = "Please enter a positive whole number";
+      if (typeof value !== 'number' || value < 0 || !Number.isInteger(value)) {
+        newErrors[field] = 'Please enter a positive whole number';
         formIsValid = false;
       }
     });
@@ -129,7 +128,7 @@ const AddPropertyForm = ({ onPropertyAdded }: AddPropertyFormProps) => {
             onChange={handleChange}
             type="text"
             inputMode="numeric"
-            pattern="\\d*"
+            pattern="\d*"
           />
           {errors.squareFootage && <Text color="red.500" fontSize="sm">{errors.squareFootage}</Text>}
         </Field.Root>
@@ -142,7 +141,7 @@ const AddPropertyForm = ({ onPropertyAdded }: AddPropertyFormProps) => {
             onChange={handleChange}
             type="text"
             inputMode="numeric"
-            pattern="\\d*"
+            pattern="\d*"
           />
           {errors.bedrooms && <Text color="red.500" fontSize="sm">{errors.bedrooms}</Text>}
         </Field.Root>
@@ -155,7 +154,7 @@ const AddPropertyForm = ({ onPropertyAdded }: AddPropertyFormProps) => {
             onChange={handleChange}
             type="text"
             inputMode="numeric"
-            pattern="\\d*"
+            pattern="\d*"
           />
           {errors.bathrooms && <Text color="red.500" fontSize="sm">{errors.bathrooms}</Text>}
         </Field.Root>
@@ -168,14 +167,21 @@ const AddPropertyForm = ({ onPropertyAdded }: AddPropertyFormProps) => {
             onChange={handleChange}
             type="text"
             inputMode="numeric"
-            pattern="\\d*"
+            pattern="\d*"
           />
           {errors.price && <Text color="red.500" fontSize="sm">{errors.price}</Text>}
         </Field.Root>
 
         <Field.Root>
           <Field.Label>Status</Field.Label>
-          <Input type="text" name="status" value={formState.status} onChange={handleChange} />
+          <NativeSelect.Root>
+            <NativeSelect.Field name="status" value={formState.status} onChange={handleChange}>
+              <option value="available">Available</option>
+              <option value="rented">Rented</option>
+              <option value="sold">Sold</option>
+            </NativeSelect.Field>
+            <NativeSelect.Indicator />
+          </NativeSelect.Root>
         </Field.Root>
 
         <Field.Root>
@@ -195,7 +201,12 @@ const AddPropertyForm = ({ onPropertyAdded }: AddPropertyFormProps) => {
 
         <Field.Root>
           <Field.Label>Description</Field.Label>
-          <Textarea name="description" value={formState.description} onChange={handleChange} placeholder="Optional" />
+          <Textarea
+            name="description"
+            value={formState.description}
+            onChange={handleChange}
+            placeholder="Optional"
+          />
         </Field.Root>
       </Fieldset.Root>
 
@@ -207,5 +218,6 @@ const AddPropertyForm = ({ onPropertyAdded }: AddPropertyFormProps) => {
 };
 
 export default AddPropertyForm;
+
 
 
