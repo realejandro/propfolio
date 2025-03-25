@@ -4,7 +4,7 @@ export interface Property {
     bedrooms: number;
     bathrooms: number;
     price: number;
-    status: 'available' | 'sold';
+    status: 'available' | 'rented' | 'sold';
     photo?: string;
     description?: string;
     userId: string;
@@ -15,7 +15,7 @@ export interface Property {
     bedrooms: number;
     bathrooms: number;
     price: number;
-    status: 'available' | 'sold';
+    status: 'available' | 'rented' | 'sold';
     photo?: string;
     description?: string;
   }

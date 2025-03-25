@@ -6,7 +6,7 @@ export const ModalSignUp = () => {
   return (
     <Dialog.Root>
       <Dialog.Trigger asChild>
-        <Button size="sm">
+        <Button size="sm" css={{ backgroundColor: "rgba(0,0,0,0)", color: 'white'}}>
           SignUp
         </Button>
       </Dialog.Trigger>
