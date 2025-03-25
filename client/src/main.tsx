@@ -29,7 +29,7 @@ const router = createBrowserRouter([
       {
         path: '/test',
         element: <TestPage />, //Page to test components
-      }
+      },
     ]
   }
 ])
