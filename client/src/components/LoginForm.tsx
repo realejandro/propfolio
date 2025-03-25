@@ -1,27 +1,77 @@
 //import type { ChangeEvent, FormEvent } from 'react';
 //import { loginUser } from '../utils/API';
 
-import { Box, Field, Fieldset, Input } from "@chakra-ui/react";
-import { Button } from "react-bootstrap";
+import { Box, Button, Field, Fieldset, Input } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import type { ChangeEvent, FormEvent, MouseEvent } from "react";
+import { useMutation } from "@apollo/client";
+import { LOGIN_USER } from "../utils/mutations";
+import Auth from "../utils/auth";
 
-// biome-ignore lint/correctness/noEmptyPattern: <explanation>
-
-const handleSubmit = () => {
-  console.log("Hello")
-}
 
 const LoginForm = () => {
+
+  const [ userFormData, setUserFormData ] = useState({  
+    email:'', 
+    password: ''
+  });
+
+  const [ login ] = useMutation(LOGIN_USER)
+
+
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setUserFormData({ ...userFormData, [name]: value });
+  };
+
+  
+  const onSubmitUserData = async(event: MouseEvent) => {
+    event.preventDefault();
+    
+    try {
+      const { data } = await login({
+        variables: {
+          ...userFormData
+        }
+      });
+      
+      Auth.login(data.login.token);
+
+      console.log(data.login.token)
+
+      
+    } catch (err) {
+      console.error(err);
+    }
+    setUserFormData({ 
+      email:'', 
+      password: '', 
+    })
+  }
+ 
   return ( 
       <Box>
-        <Fieldset.Root>
+        <Fieldset.Root >
           <Field.Root>
             <Field.Label css={{color:"white"}}>Email</Field.Label>
-            <Input name="name" type="email"/>
+            <Input 
+              name="email" 
+              type="email" 
+              onChange={handleInputChange}
+              value={ userFormData.email || ''}
+              required
+            />
           </Field.Root>
 
           <Field.Root>
             <Field.Label css={{color:"white"}} >Password</Field.Label>
-            <Input name="email" type="password" />
+            <Input 
+              name="password" 
+              type="password"
+              onChange={handleInputChange}
+              value={userFormData.password || ''}
+              required 
+            />
           </Field.Root>
             <Field.Root>
               <Button 
@@ -31,7 +81,8 @@ const LoginForm = () => {
                   margin:"2px"
                 }}
                 variant="outline"
-                onClick={handleSubmit}>
+                onClick={onSubmitUserData}
+                >
                   Submit
               </Button>
             </Field.Root>

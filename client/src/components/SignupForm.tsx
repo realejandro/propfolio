@@ -12,6 +12,11 @@ const SignupForm = () => {
   return ( 
       <Box>
         <Fieldset.Root>
+        <Field.Root>
+            <Field.Label css={{color:"white"}}>username</Field.Label>
+            <Input name="name" type="email"/>
+          </Field.Root>
+
           <Field.Root>
             <Field.Label css={{color:"white"}}>Email</Field.Label>
             <Input name="name" type="email"/>
@@ -22,7 +27,6 @@ const SignupForm = () => {
             <Input name="password" type="password" />
           </Field.Root>
 
-          <Box display="flex" flexDirection="row" width="1/3" >
             <Field.Root>
               <Button 
                 style={{
@@ -35,19 +39,7 @@ const SignupForm = () => {
                   Submit
               </Button>
             </Field.Root>
-            <Field.Root>
-              <Button 
-                style={{
-                  backgroundColor:"red",
-                  color:"white",
-                  margin:"2px"
-                }}
-                variant="outline"
-                onClick={handleSubmit}>
-                  Cancel
-              </Button>
-            </Field.Root>
-          </Box>
+          
         </Fieldset.Root>
       </Box>
   );
