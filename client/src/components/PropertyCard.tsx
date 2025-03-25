@@ -54,9 +54,11 @@ const PropertyCard = ({ property, onDelete }: PropertyCardProps) => {
         </Box>
 
         <Text>
+          <strong>Location:</strong> {property.location}</Text>
+        <Text>
+        <Text>
           <strong>Square Footage:</strong> {property.squareFootage} sqft
         </Text>
-        <Text>
           <strong>Bedrooms:</strong> {property.bedrooms}
         </Text>
         <Text>

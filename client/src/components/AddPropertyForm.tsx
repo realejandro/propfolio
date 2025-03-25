@@ -38,6 +38,7 @@ const AddPropertyForm = ({ onPropertyAdded }: AddPropertyFormProps) => {
     status: 'available',
     photo: '',
     description: '',
+    location: '',
   });
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
@@ -48,14 +49,23 @@ const AddPropertyForm = ({ onPropertyAdded }: AddPropertyFormProps) => {
   ) => {
     const { name, value } = e.target;
 
-    if (['price', 'squareFootage', 'bedrooms', 'bathrooms'].includes(name)) {
+    if (["price", "squareFootage", "bedrooms", "bathrooms"].includes(name)) {
       const parsed = parseInt(value);
-      if (isNaN(parsed) || parsed < 0 || value.includes('.')) {
-        setErrors((prev) => ({ ...prev, [name]: 'Please enter a positive whole number' }));
+
+      if (isNaN(parsed) || parsed <= 0 || value.includes('.')) {
+        setErrors((prev) => ({ ...prev, [name]: 'Must be a positive whole number greater than zero' }));
       } else {
         setErrors((prev) => ({ ...prev, [name]: '' }));
         setFormState((prev) => ({ ...prev, [name]: parsed }));
       }
+    } else if (name === 'location') {
+      const isValid = /^[a-zA-Z0-9\s,]{3,100}$/.test(value);
+      if (!isValid) {
+        setErrors((prev) => ({ ...prev, location: 'Enter 3–100 characters (letters, numbers, commas)' }));
+      } else {
+        setErrors((prev) => ({ ...prev, location: '' }));
+      }
+      setFormState((prev) => ({ ...prev, location: value }));
     } else {
       setFormState((prev) => ({ ...prev, [name]: value }));
     }
@@ -64,17 +74,22 @@ const AddPropertyForm = ({ onPropertyAdded }: AddPropertyFormProps) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const requiredFields = ['squareFootage', 'bedrooms', 'bathrooms', 'price'];
+    const requiredFields = ["squareFootage", "bedrooms", "bathrooms", "price"];
     let formIsValid = true;
     const newErrors: { [key: string]: string } = {};
 
     requiredFields.forEach((field) => {
       const value = formState[field as keyof PropertyInput];
-      if (typeof value !== 'number' || value < 0 || !Number.isInteger(value)) {
-        newErrors[field] = 'Please enter a positive whole number';
+      if (typeof value !== "number" || value <= 0 || !Number.isInteger(value)) {
+        newErrors[field] = "Must be a positive whole number greater than zero";
         formIsValid = false;
       }
     });
+
+    if (!formState.location || formState.location.length < 3 || formState.location.length > 100) {
+      newErrors.location = "Enter 3–100 characters (letters, numbers, commas)";
+      formIsValid = false;
+    }
 
     if (!formIsValid) {
       setErrors(newErrors);
@@ -101,6 +116,7 @@ const AddPropertyForm = ({ onPropertyAdded }: AddPropertyFormProps) => {
         status: 'available',
         photo: '',
         description: '',
+        location: '',
       });
       setErrors({});
     } catch (err) {
@@ -121,14 +137,25 @@ const AddPropertyForm = ({ onPropertyAdded }: AddPropertyFormProps) => {
         <Fieldset.Legend>Add New Property</Fieldset.Legend>
 
         <Field.Root>
+          <Field.Label>Location</Field.Label>
+          <Input
+            name="location"
+            value={formState.location}
+            onChange={handleChange}
+            type="text"
+            placeholder="e.g. 123 Main St, Springfield"
+          />
+          {errors.location && <Text color="red.500" fontSize="sm">{errors.location}</Text>}
+        </Field.Root>
+
+        <Field.Root>
           <Field.Label>Square Footage</Field.Label>
           <Input
             name="squareFootage"
-            value={formState.squareFootage}
+            value={formState.squareFootage || ''}
             onChange={handleChange}
             type="text"
             inputMode="numeric"
-            pattern="\d*"
           />
           {errors.squareFootage && <Text color="red.500" fontSize="sm">{errors.squareFootage}</Text>}
         </Field.Root>
@@ -137,11 +164,10 @@ const AddPropertyForm = ({ onPropertyAdded }: AddPropertyFormProps) => {
           <Field.Label>Bedrooms</Field.Label>
           <Input
             name="bedrooms"
-            value={formState.bedrooms}
+            value={formState.bedrooms || ''}
             onChange={handleChange}
             type="text"
             inputMode="numeric"
-            pattern="\d*"
           />
           {errors.bedrooms && <Text color="red.500" fontSize="sm">{errors.bedrooms}</Text>}
         </Field.Root>
@@ -150,11 +176,10 @@ const AddPropertyForm = ({ onPropertyAdded }: AddPropertyFormProps) => {
           <Field.Label>Bathrooms</Field.Label>
           <Input
             name="bathrooms"
-            value={formState.bathrooms}
+            value={formState.bathrooms || ''}
             onChange={handleChange}
             type="text"
             inputMode="numeric"
-            pattern="\d*"
           />
           {errors.bathrooms && <Text color="red.500" fontSize="sm">{errors.bathrooms}</Text>}
         </Field.Root>
@@ -163,11 +188,10 @@ const AddPropertyForm = ({ onPropertyAdded }: AddPropertyFormProps) => {
           <Field.Label>Price</Field.Label>
           <Input
             name="price"
-            value={formState.price}
+            value={formState.price || ''}
             onChange={handleChange}
             type="text"
             inputMode="numeric"
-            pattern="\d*"
           />
           {errors.price && <Text color="red.500" fontSize="sm">{errors.price}</Text>}
         </Field.Root>
@@ -201,12 +225,7 @@ const AddPropertyForm = ({ onPropertyAdded }: AddPropertyFormProps) => {
 
         <Field.Root>
           <Field.Label>Description</Field.Label>
-          <Textarea
-            name="description"
-            value={formState.description}
-            onChange={handleChange}
-            placeholder="Optional"
-          />
+          <Textarea name="description" value={formState.description} onChange={handleChange} placeholder="Optional" />
         </Field.Root>
       </Fieldset.Root>
 
@@ -218,6 +237,7 @@ const AddPropertyForm = ({ onPropertyAdded }: AddPropertyFormProps) => {
 };
 
 export default AddPropertyForm;
+
 
 
 

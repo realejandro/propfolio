@@ -1,6 +1,7 @@
 import { Schema, model, type Document } from 'mongoose';
 
 export interface PropertyDocument extends Document {
+  location: string;
   squareFootage: number;
   bedrooms: number;
   bathrooms: number;
@@ -12,6 +13,10 @@ export interface PropertyDocument extends Document {
 }
 
 const propertySchema = new Schema<PropertyDocument>({
+  location: {
+    type: String,
+    required: true,
+  },
   squareFootage: {
     type: Number,
     required: true,

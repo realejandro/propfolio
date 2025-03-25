@@ -23,6 +23,7 @@ export const CREATE_USER = gql`
         username
         savedProperties {
           _id
+          location
           squareFootage
           bedrooms
           bathrooms
@@ -42,6 +43,7 @@ export const ADD_PROPERTY = gql`
   mutation AddProperty($input: PropertyInput!) {
     addProperty(input: $input) {
       _id
+      location
       squareFootage
       bedrooms
       bathrooms
@@ -58,6 +60,7 @@ export const UPDATE_PROPERTY = gql`
   mutation UpdateProperty($id: ID!, $input: PropertyInput!) {
     updateProperty(id: $id, input: $input) {
       _id
+      location
       squareFootage
       bedrooms
       bathrooms

@@ -1,5 +1,6 @@
 export interface Property {
     _id: string;
+    location: string;
     squareFootage: number;
     bedrooms: number;
     bathrooms: number;
@@ -11,6 +12,7 @@ export interface Property {
   }
   
   export interface PropertyInput {
+    location: string;
     squareFootage: number;
     bedrooms: number;
     bathrooms: number;
