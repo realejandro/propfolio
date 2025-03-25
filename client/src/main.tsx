@@ -9,6 +9,7 @@ import  AddPropertyPage from './pages/AddPropertyPage'
 import TestPage from './pages/TestPage';
 
 const router = createBrowserRouter([
+
   {
     path: '/',
     element: <App />,
