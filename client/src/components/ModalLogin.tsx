@@ -1,14 +1,12 @@
-
+import React from 'react'
+import { Button, CloseButton, Dialog, Portal } from '@chakra-ui/react'
 import LoginForm from './LoginForm'
-import { Dialog,  Portal } from '@chakra-ui/react'
-import { Button, CloseButton } from 'react-bootstrap'
 
-export const TestComponent = () => {
-  
+export const ModalLogin = () => {
   return (
     <Dialog.Root>
       <Dialog.Trigger asChild>
-        <Button variant="outline" size="sm">
+        <Button size="sm" css={{ backgroundColor: "rgba(0,0,0,0)", color: 'white'}}>
           Login
         </Button>
       </Dialog.Trigger>
@@ -18,9 +16,6 @@ export const TestComponent = () => {
           <Dialog.Content>
             <Dialog.Header display="flex">
               <Dialog.Title css={{ color: 'white'}}>Login</Dialog.Title>
-              <Dialog.ActionTrigger asChild css={{ backgroundColor: "red", borderRadius: "50%"}}>
-                <Button variant="outline">X</Button>
-              </Dialog.ActionTrigger>
             </Dialog.Header>
             <Dialog.Body>
             <LoginForm/>

@@ -7,10 +7,9 @@ import { HomePage } from './pages/HomePage'
 import PropertyPage from './pages/PropertyPage'
 import  AddPropertyPage from './pages/AddPropertyPage'
 import TestPage from './pages/TestPage';
-import { SignedIn } from './pages/SignedIn'
-import { TestComponent } from './components/TestComponent.js'
 
 const router = createBrowserRouter([
+
   {
     path: '/',
     element: <App />,
@@ -30,14 +29,6 @@ const router = createBrowserRouter([
       {
         path: '/test',
         element: <TestPage />, //Page to test components
-      },
-      {
-        path: '/dashboard',
-        element: <SignedIn />  // Signed-in page for managing properties
-      },
-      {
-        path:'/test',
-        element:<TestComponent/> 
       }
     ]
   }
