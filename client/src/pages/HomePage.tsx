@@ -1,5 +1,3 @@
-import React from 'react'
-import { TestComponent } from '../components/TestComponent'
 import Auth from '../utils/auth'
 import { Avatar, Box, Button, Card, Container, Em, Grid, GridItem, Heading, Image, Text } from '@chakra-ui/react'
 

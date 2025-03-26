@@ -1,6 +1,7 @@
 const typeDefs = `
     type Property {
         _id: ID!
+        location: String
         squareFootage: Int
         bedrooms: Int
         bathrooms: Int
@@ -31,6 +32,7 @@ const typeDefs = `
     }
 
     input PropertyInput {
+        location: String!
         squareFootage: Int!
         bedrooms: Int!
         bathrooms: Int!
@@ -50,9 +52,3 @@ const typeDefs = `
 `
 
 export default typeDefs;
-
-/*
-addBook(bookId:String, title:String, authors:[String], description:String, image:String, link:String ): User
-        removeBook(bookId:String): User
-
-*/
