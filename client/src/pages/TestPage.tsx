@@ -5,6 +5,7 @@ import { Property } from '../models/Property';
 const mockProperties: Property[] = [
   {
     _id: '1',
+    location: '123 Main St, Suburbia, CA',
     squareFootage: 1500,
     bedrooms: 3,
     bathrooms: 2,
@@ -16,6 +17,7 @@ const mockProperties: Property[] = [
   },
   {
     _id: '2',
+    location: '456 Elm St, Downtown, CA',
     squareFootage: 950,
     bedrooms: 2,
     bathrooms: 1,
@@ -27,6 +29,7 @@ const mockProperties: Property[] = [
   },
   {
     _id: '3',
+    location: '789 Oak St, Countryside, CA',
     squareFootage: 2000,
     bedrooms: 4,
     bathrooms: 3,
