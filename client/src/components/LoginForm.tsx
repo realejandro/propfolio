@@ -2,8 +2,8 @@
 //import { loginUser } from '../utils/API';
 
 import { Box, Button, Field, Fieldset, Input } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import type { ChangeEvent, FormEvent, MouseEvent } from "react";
+import { useState } from "react";
+import type { ChangeEvent, MouseEvent } from "react";
 import { useMutation } from "@apollo/client";
 import { LOGIN_USER } from "../utils/mutations";
 import Auth from "../utils/auth";
@@ -35,10 +35,8 @@ const LoginForm = () => {
         }
       });
       
-      Auth.login(data.login.token);
-
-      console.log(data.login.token)
-
+     Auth.login(data.login.token);
+      
       
     } catch (err) {
       console.error(err);
