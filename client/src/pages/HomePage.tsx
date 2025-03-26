@@ -50,7 +50,7 @@ export const HomePage = () => {
         </Box>
         <Box width="50%">
           <Image
-            height="90vh"
+            height="89vh"
             src="https://onyx-technologies.com/wp-content/uploads/2023/09/Chicago.jpg"
           />
         </Box>
