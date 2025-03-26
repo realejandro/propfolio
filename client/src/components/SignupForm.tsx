@@ -2,7 +2,6 @@
 import { Box, Button, Field, Fieldset, Flex, Input } from "@chakra-ui/react";
 
 
-// biome-ignore lint/correctness/noEmptyPattern: <explanation>
 
 const handleSubmit = () => {
   console.log("Hello")

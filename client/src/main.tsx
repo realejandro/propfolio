@@ -7,7 +7,9 @@ import { HomePage } from './pages/HomePage'
 import PropertyPage from './pages/PropertyPage'
 import  AddPropertyPage from './pages/AddPropertyPage'
 import TestPage from './pages/TestPage';
-import ContactPage from './pages/ContactPage';
+import ContactPage from './pages/ContactPage.js'
+
+
 
 const router = createBrowserRouter([
 
