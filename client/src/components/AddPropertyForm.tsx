@@ -14,17 +14,18 @@ import { useToast } from '@chakra-ui/toast';
 import { useMutation } from '@apollo/client';
 import { ADD_PROPERTY } from '../utils/mutations';
 import { PropertyInput } from '../models/Property';
+import { QUERY_ME } from '../utils/queries';
 
 interface AddPropertyFormProps {
   onPropertyAdded?: () => void;
 }
 
 const predefinedImages = [
-  './assets/images/house1.jpg',
-  './assets/images/house2.jpg',
-  './assets/images/apartment1.jpg',
-  './assets/images/apartment2.jpg',
-  './assets/images/house3.jpg',
+  '../assets/images/house1.jpeg',
+  '../assets/images/house2.jpeg',
+  '../assets/images/apartment1.jpeg',
+  '../assets/images/apartment2.jpeg',
+  '../assets/images/house3.jpeg',
 ];
 
 const AddPropertyForm = ({ onPropertyAdded }: AddPropertyFormProps) => {
@@ -42,7 +43,15 @@ const AddPropertyForm = ({ onPropertyAdded }: AddPropertyFormProps) => {
   });
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
-  const [addProperty, { error }] = useMutation(ADD_PROPERTY);
+  const [addProperty, { error }] = useMutation(ADD_PROPERTY, {
+    refetchQueries: [
+      {
+        query: QUERY_ME,
+      },
+    ],
+    awaitRefetchQueries: true,
+  });
+  
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
