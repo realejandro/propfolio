@@ -1,58 +1,62 @@
-# PropFolio CI/CD Documentation
+# PropFolio CI/CD Setup Guide
 
-This document explains the continuous integration and deployment (CI/CD) setup for PropFolio using GitHub Actions and Render.
+Hey guys, below are the steps I completed for the GitHub Actions to automate our deployment to Render.
 
-## Workflow Overview
+- Created the GitHub Actions workflow file (`.github/workflows/deploy.yml`)
+- Set up the workflow to build and deploy our app to Render
+- Added documentation for the CI/CD process
 
-The GitHub Actions workflow defined in `.github/workflows/deploy.yml` automates the testing and deployment process:
+## What We Need to Do Next 
 
-1. Triggers on:
-   - Pushes to the `main` branch
-   - Manual triggers via the "workflow_dispatch" event
+### 1. Set Up GitHub Secrets (Alejandro)
 
-2. Job Steps:
-   - Checkout the code from the repository
-   - Set up Node.js environment
-   - Install dependencies
-   - Run tests
-   - Deploy to Render
+Since you created the GitHub repo, please add these secrets in the GitHub repository:
 
-## Required Secrets
+1. Go to our repo on GitHub
+2. Click on "Settings" > "Secrets and variables" > "Actions"
+3. Click "New repository secret" and add each of these:
 
-Configure these secrets in your GitHub repository settings (Settings > Secrets and variables > Actions):
+| Secret Name | Value to Add | Where to Get It |
+|-------------|--------------|-----------------|
+| `RENDER_SERVICE_ID` | Our Render service ID | From Render dashboard - the service ID is in the URL when viewing the service |
+| `RENDER_API_KEY` | Your Render API key | Generate from Render dashboard: Account Settings > API Keys |
+| `JWT_SECRET_KEY` | Our JWT secret | Use the same value as in our server's `.env` file |
 
-| Secret Name | Description | How to Obtain |
-|-------------|-------------|---------------|
-| `RENDER_SERVICE_ID` | The ID of your Render service | Go to your Render dashboard, select your service, and find the ID in the URL or settings page |
-| `RENDER_API_KEY` | API key for Render deployments | Generate from the Render dashboard under Account Settings > API Keys |
-| `JWT_SECRET_KEY` | Secret key for JWT token generation | Same value as your server's environment variable |
-| `GITHUB_TOKEN` | GitHub access token | Automatically provided by GitHub Actions |
+### 2. Set Up Render Service (Justin)
 
-## Setting Up Render
-
-1. Create a web service on Render
-2. Connect it to your GitHub repository
-3. Configure environment variables:
+1. Create a web service on Render if not already done
+2. Connect it to our GitHub repository
+3. Set the build command to: `npm install && npm run build`
+4. Set the start command to: `npm start`
+5. Add these environment variables in Render:
    - `NODE_ENV=production`
-   - `JWT_SECRET_KEY` (same as in GitHub secrets)
-   - MongoDB connection string
-   - Any other required variables
-4. Set up build and start commands
+   - `JWT_SECRET_KEY` (same as above)
+   - `MONGODB_URI` (our database connection string)
 
-## Modifying the Workflow
+### 3. Testing the Deployment
 
-If you need to customize the workflow:
+After the above steps are complete:
+1. Push any small change to the `main` branch
+2. Go to the "Actions" tab in our GitHub repo
+3. You should see the workflow running
+4. If successful, our app will be deployed to Render automatically!
 
-- To change Node.js version: Update the `node-version` parameter
-- To add more tests: Expand the testing step
-- To deploy to a different environment: Duplicate the job with different conditions
-- To add notifications: Add a step for Slack/Discord notifications
+### 4. Troubleshooting
 
-## Troubleshooting
+If something doesn't work:
+1. Check the GitHub Actions logs (in the "Actions" tab)
+2. Verify all secrets are added correctly in GitHub
+3. Check the Render logs for any deployment errors
+4. Make sure our build script works locally (`npm run build`)
 
-If deployments fail, check:
+## How It Works
 
-1. GitHub Actions logs in the repository's Actions tab
-2. Render deployment logs in the Render dashboard
-3. Verify all secrets are correctly configured
-4. Check if the Render service ID is valid
+This setup does the following:
+1. When we push to `main` branch, GitHub Actions automatically starts
+2. It builds our app to make sure everything compiles correctly
+3. If the build succeeds, it triggers a deployment to Render
+4. Our latest code is now live on Render!
+
+We can also manually trigger a deployment anytime from the "Actions" tab by clicking on the "Deploy to Render" workflow and selecting "Run workflow".
+
+Let me know if you have any questions or run into any issues!
