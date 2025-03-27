@@ -61,6 +61,18 @@ This application is deployed on Render, so installation is not necessary for gen
 🔗 [Link to the deployed app](https://your-render-link.com)  
 <!-- Replace with actual Render deployment URL -->
 
+### 🚀 CI/CD with GitHub Actions
+This project uses GitHub Actions for continuous integration and deployment to Render:
+
+1. Every push to the `main` branch triggers automatic testing and deployment
+2. Configure the following GitHub repository secrets:
+   - `RENDER_SERVICE_ID`: Your Render service ID
+   - `RENDER_API_KEY`: Your Render API key
+   - `JWT_SECRET_KEY`: JWT secret (same as your environment variable)
+3. The workflow will run tests, build the application, and deploy to Render
+
+To manually trigger a deployment, use the "Run workflow" button in the Actions tab.
+
 ---
 
 ## 🖼 Screenshot
@@ -73,7 +85,7 @@ This application is deployed on Render, so installation is not necessary for gen
 
 - **Paolo Sierra** – [GitHub](https://github.com/Narupo)
 - **Alejandro Cabrera** – [GitHub](https://github.com/realalejandrocf)
-- **Justin Rakestraw** – [GitHub](https://github.com/your-gh-username)
+- **Justin Rakestraw** – [GitHub](https://github.com/jrakestr)
 
 ---
 
@@ -81,4 +93,3 @@ This application is deployed on Render, so installation is not necessary for gen
 
 This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).  
 Feel free to use, modify, and distribute as needed!
-
