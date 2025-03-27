@@ -20,11 +20,11 @@ interface AddPropertyFormProps {
 }
 
 const predefinedImages = [
-  '/assets/images/house1.jpg',
-  '/assets/images/house2.jpg',
-  '/assets/images/apartment1.jpg',
-  '/assets/images/apartment2.jpg',
-  '/assets/images/house3.jpg',
+  './assets/images/house1.jpg',
+  './assets/images/house2.jpg',
+  './assets/images/apartment1.jpg',
+  './assets/images/apartment2.jpg',
+  './assets/images/house3.jpg',
 ];
 
 const AddPropertyForm = ({ onPropertyAdded }: AddPropertyFormProps) => {
