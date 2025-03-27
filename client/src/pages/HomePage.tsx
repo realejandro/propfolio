@@ -1,5 +1,5 @@
 import Auth from '../utils/auth'
-import { Avatar, Box, Button, Card, Container, Em, Grid, GridItem, Heading, Image, Text } from '@chakra-ui/react'
+import { Avatar, Box, Button, Card, Container, Em, Heading, Image, Text } from '@chakra-ui/react'
 
 
 export const HomePage = () => {
@@ -31,9 +31,9 @@ export const HomePage = () => {
 
 
   return (
-    <Container fluid padding="0" >
-      <Box display="flex" width="100%" >
-        <Box display="flex" width="50%" padding="4" marginTop="20" flexDirection="column">
+    <Container fluid padding={"0"}>
+      <Box display="flex" lg={{flexDirection: "row"}} md={{flexDirection: "column"}} sm={{flexDirection: "column"}} width="100%" >
+        <Box display="flex" width={{lgOnly: "50%"}} padding="4" marginTop="20" flexDirection="column" md={{height: "50vh"}} >
           <Heading 
             textStyle="5xl"
             textAlign="center"
@@ -48,9 +48,9 @@ export const HomePage = () => {
             Simplify property tracking and management with our intuitive app. Stay organized, save time, and make smarter decisions—all in one platform.
           </Text>
         </Box>
-        <Box width="50%">
+        <Box width={{lgOnly: "50%"}}>
           <Image
-            height="89vh"
+            height="100vh"
             src="https://onyx-technologies.com/wp-content/uploads/2023/09/Chicago.jpg"
           />
         </Box>
