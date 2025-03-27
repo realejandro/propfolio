@@ -29,9 +29,5 @@ jobs:
           JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
       
       - name: Deploy to Render
-        uses: JorgeLNJunior/render-deploy@v1.4.0
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          service_id: ${{ secrets.RENDER_SERVICE_ID }}
-          api_key: ${{ secrets.RENDER_API_KEY }}
-          clear_cache: true
+        run: |
+          curl -X POST "https://api.render.com/deploy/srv-cvibig1r0fns738c9pmg?key=JhmN8JTiW8s"

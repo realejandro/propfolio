@@ -85,7 +85,7 @@ To manually trigger a deployment, use the "Run workflow" button in the Actions t
 
 - **Paolo Sierra** – [GitHub](https://github.com/Narupo)
 - **Alejandro Cabrera** – [GitHub](https://github.com/realalejandrocf)
-- **Justin Rakestraw** – [GitHub](https://github.com/your-gh-username)
+- **Justin Rakestraw** – [GitHub](https://github.com/jrakestr)
 
 ---
 

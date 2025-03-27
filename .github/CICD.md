@@ -10,17 +10,17 @@ Hey guys, below are the steps I completed for the GitHub Actions to automate our
 
 ### 1. Set Up GitHub Secrets (Alejandro)
 
-Since you created the GitHub repo, please add these secrets in the GitHub repository:
+Since you created the GitHub repo, please add this secret in the GitHub repository:
 
 1. Go to our repo on GitHub
 2. Click on "Settings" > "Secrets and variables" > "Actions"
-3. Click "New repository secret" and add each of these:
+3. Click "New repository secret" and add:
 
 | Secret Name | Value to Add | Where to Get It |
 |-------------|--------------|-----------------|
-| `RENDER_SERVICE_ID` | Our Render service ID | From Render dashboard - the service ID is in the URL when viewing the service |
-| `RENDER_API_KEY` | Your Render API key | Generate from Render dashboard: Account Settings > API Keys |
 | `JWT_SECRET_KEY` | Our JWT secret | Use the same value as in our server's `.env` file |
+
+Note: We're now using a direct deploy hook URL for Render deployments, so the RENDER_SERVICE_ID and RENDER_API_KEY secrets are no longer needed.
 
 ### 2. Set Up Render Service (Justin)
 
@@ -32,6 +32,8 @@ Since you created the GitHub repo, please add these secrets in the GitHub reposi
    - `NODE_ENV=production`
    - `JWT_SECRET_KEY` (same as above)
    - `MONGODB_URI` (our database connection string)
+
+Note: We've already configured a deploy hook URL in our GitHub Actions workflow, so your Render service is ready to receive deploy triggers.
 
 ### 3. Testing the Deployment
 
