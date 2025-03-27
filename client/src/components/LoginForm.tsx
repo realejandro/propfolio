@@ -7,6 +7,7 @@ import type { ChangeEvent, MouseEvent } from "react";
 import { useMutation } from "@apollo/client";
 import { LOGIN_USER } from "../utils/mutations";
 import Auth from "../utils/auth";
+import { Alert } from  "@chakra-ui/react";
 
 
 const LoginForm = () => {
@@ -15,6 +16,8 @@ const LoginForm = () => {
     email:'', 
     password: ''
   });
+
+  const [isSubmit, setIsSubmit] = useState<Boolean | null>(null)
 
   const [ login ] = useMutation(LOGIN_USER)
 
@@ -36,10 +39,14 @@ const LoginForm = () => {
       });
       
      Auth.login(data.login.token);
-      
+     
+     if(!data.login){
+      setIsSubmit(true);
+     }
       
     } catch (err) {
       console.error(err);
+      setIsSubmit(false)
     }
     setUserFormData({ 
       email:'', 
@@ -84,6 +91,17 @@ const LoginForm = () => {
                   Submit
               </Button>
             </Field.Root>
+            {
+              isSubmit !== null && (
+                !isSubmit ?  
+                <Alert.Root status="error">
+                  <Alert.Indicator />
+                  <Alert.Title>There is something wrong with your info (duplicate user or incomplete info)</Alert.Title>
+                </Alert.Root>
+              :
+              ''
+              )
+            }
             
           
         </Fieldset.Root>
