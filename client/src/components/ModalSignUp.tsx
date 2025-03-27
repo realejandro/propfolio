@@ -1,4 +1,3 @@
-import React from 'react'
 import { Button, CloseButton, Dialog, Portal } from '@chakra-ui/react'
 import SignupForm from './SignupForm'
 

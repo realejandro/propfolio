@@ -6,7 +6,6 @@ import App from './App.jsx'
 import { HomePage } from './pages/HomePage'
 import PropertyPage from './pages/PropertyPage'
 import  AddPropertyPage from './pages/AddPropertyPage'
-import TestPage from './pages/TestPage';
 import ContactPage from './pages/ContactPage.js'
 
 
@@ -28,10 +27,6 @@ const router = createBrowserRouter([
       },
       { path: '/addproperty', 
         element: <AddPropertyPage /> // Page for adding a new property
-      },
-      {
-        path: '/test',
-        element: <TestPage />, //Page to test components
       },
       {
         path: '/contact',

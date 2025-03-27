@@ -1,4 +1,3 @@
-import Auth from '../utils/auth'
 import { Avatar, Box, Button, Card, Container, Em, Heading, Image, Text } from '@chakra-ui/react'
 
 

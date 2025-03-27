@@ -19,7 +19,6 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "bcrypt": "^4.0.1",
-    "brcypt": "^1.0.1",
     "express": "^4.19.2",
     "framer-motion": "^12.5.0",
     "graphql": "^16.10.0",

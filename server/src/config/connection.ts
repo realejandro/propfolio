@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/realstate');
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/realestate');
 
 export default mongoose.connection;
