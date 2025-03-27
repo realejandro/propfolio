@@ -50,9 +50,9 @@ This application is deployed on Render, so installation is not necessary for gen
 
 ## 🔮 Future Development
 - Enable photo uploads for users to add custom property images
+- Add more functionality to the propertyform and cards, (e.g., ability to add "rooms" which will have their own input fields for things such as sq footage, # of windows, # of closets, # of bathrooms, a picture of the specific room, etc. These rooms could be displayed to users by editing the state of the property card. This is just one of the ideas we have for adding more functionality to the application.)
 - Integrate Google Maps or Mapbox API for geolocation and visual property placement
 - Add filtering and sorting functionality on the Properties page
-- Calendar-based availability and leasing timeline features
 - PDF export or print-friendly reports of property portfolio
 
 ---
