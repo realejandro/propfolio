@@ -49,8 +49,8 @@ This application is deployed on Render, so installation is not necessary for gen
 ---
 
 ## 🔮 Future Development
+- Add more functionality to the property form and cards, (e.g., ability to add "rooms" which will have their own input fields for things such as square footage, # of windows, # of closets, # of bathrooms, a picture of the specific room, etc). These rooms could be displayed to users by editing the state of the property page to display a single properties "room cards" instead of the users property cards. This is just one of the ideas we have for adding more user friendly functionality to the application.
 - Enable photo uploads for users to add custom property images
-- Add more functionality to the propertyform and cards, (e.g., ability to add "rooms" which will have their own input fields for things such as sq footage, # of windows, # of closets, # of bathrooms, a picture of the specific room, etc. These rooms could be displayed to users by editing the state of the property card. This is just one of the ideas we have for adding more functionality to the application.)
 - Integrate Google Maps or Mapbox API for geolocation and visual property placement
 - Add filtering and sorting functionality on the Properties page
 - PDF export or print-friendly reports of property portfolio
@@ -58,8 +58,7 @@ This application is deployed on Render, so installation is not necessary for gen
 ---
 
 ## 🌐 Deployed Application
-🔗 [Link to the deployed app](https://your-render-link.com)  
-<!-- Replace with actual Render deployment URL -->
+🔗 [https://real-state-portfolio.onrender.com]  
 
 ### 🚀 CI/CD with GitHub Actions
 This project uses GitHub Actions for continuous integration and deployment to Render:
@@ -75,9 +74,10 @@ To manually trigger a deployment, use the "Run workflow" button in the Actions t
 
 ---
 
-## 🖼 Screenshot
-![Homepage Screenshot](./assets/images/screenshot-homepage.png)  
-<!-- Replace the path with the correct relative path to your screenshot -->
+## 📸 Screenshot
+
+![Image](https://github.com/user-attachments/assets/314170dd-3ceb-4cf3-baf2-6c3b0c78d707)
+
 
 ---
 
