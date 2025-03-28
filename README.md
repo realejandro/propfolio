@@ -50,9 +50,9 @@ This application is deployed on Render, so installation is not necessary for gen
 
 ## 🔮 Future Development
 - Enable photo uploads for users to add custom property images
+- Add more functionality to the propertyform and cards, (e.g., ability to add "rooms" which will have their own input fields for things such as sq footage, # of windows, # of closets, # of bathrooms, a picture of the specific room, etc. These rooms could be displayed to users by editing the state of the property card. This is just one of the ideas we have for adding more functionality to the application.)
 - Integrate Google Maps or Mapbox API for geolocation and visual property placement
 - Add filtering and sorting functionality on the Properties page
-- Calendar-based availability and leasing timeline features
 - PDF export or print-friendly reports of property portfolio
 
 ---
@@ -60,6 +60,18 @@ This application is deployed on Render, so installation is not necessary for gen
 ## 🌐 Deployed Application
 🔗 [Link to the deployed app](https://your-render-link.com)  
 <!-- Replace with actual Render deployment URL -->
+
+### 🚀 CI/CD with GitHub Actions
+This project uses GitHub Actions for continuous integration and deployment to Render:
+
+1. Every push to the `main` branch triggers automatic testing and deployment
+2. Configure the following GitHub repository secrets:
+   - `RENDER_SERVICE_ID`: Your Render service ID
+   - `RENDER_API_KEY`: Your Render API key
+   - `JWT_SECRET_KEY`: JWT secret (same as your environment variable)
+3. The workflow will run tests, build the application, and deploy to Render
+
+To manually trigger a deployment, use the "Run workflow" button in the Actions tab.
 
 ---
 
@@ -73,7 +85,7 @@ This application is deployed on Render, so installation is not necessary for gen
 
 - **Paolo Sierra** – [GitHub](https://github.com/Narupo)
 - **Alejandro Cabrera** – [GitHub](https://github.com/realalejandrocf)
-- **Justin Rakestraw** – [GitHub](https://github.com/your-gh-username)
+- **Justin Rakestraw** – [GitHub](https://github.com/jrakestr)
 
 ---
 
@@ -81,4 +93,3 @@ This application is deployed on Render, so installation is not necessary for gen
 
 This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).  
 Feel free to use, modify, and distribute as needed!
-
