@@ -15,6 +15,7 @@ import { useMutation } from '@apollo/client';
 import { ADD_PROPERTY } from '../utils/mutations';
 import { PropertyInput } from '../models/Property';
 import { QUERY_ME } from '../utils/queries';
+import { useNavigate } from 'react-router-dom'; // ✅ NEW
 
 interface AddPropertyFormProps {
   onPropertyAdded?: () => void;
@@ -30,6 +31,7 @@ const predefinedImages = [
 
 const AddPropertyForm = ({ onPropertyAdded }: AddPropertyFormProps) => {
   const toast = useToast();
+  const navigate = useNavigate(); // ✅ NEW
 
   const [formState, setFormState] = useState<PropertyInput>({
     squareFootage: 0,
@@ -44,14 +46,9 @@ const AddPropertyForm = ({ onPropertyAdded }: AddPropertyFormProps) => {
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [addProperty, { error }] = useMutation(ADD_PROPERTY, {
-    refetchQueries: [
-      {
-        query: QUERY_ME,
-      },
-    ],
+    refetchQueries: [{ query: QUERY_ME }],
     awaitRefetchQueries: true,
   });
-  
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -116,6 +113,9 @@ const AddPropertyForm = ({ onPropertyAdded }: AddPropertyFormProps) => {
       });
 
       onPropertyAdded?.();
+
+      // ✅ Redirect to PropertyPage
+      navigate('/properties');
 
       setFormState({
         squareFootage: 0,
@@ -246,6 +246,7 @@ const AddPropertyForm = ({ onPropertyAdded }: AddPropertyFormProps) => {
 };
 
 export default AddPropertyForm;
+
 
 
 

@@ -1,5 +1,6 @@
 import User from "../models/User.js";
 import Property from "../models/Property.js";
+import Room from "../models/Room.js";
 import { signToken } from "../services/auth.js";
 import { AuthenticationError } from "../services/auth.js";
 
@@ -21,6 +22,14 @@ interface PropertyInput {
     photo?: string;
     description?: string;
 }
+
+interface RoomInput {
+    propertyId: string;
+    title: string;
+    squareFootage: number;
+    photo?: string;
+    description?: string;
+  }
 
 const resolvers = {
     Query: {
@@ -53,8 +62,16 @@ const resolvers = {
                 console.error('Error fetching properties', error);
                 throw new Error('Failed to fetch properties');
             }
-        }
-    },
+        },
+        getRoomsByProperty: async (_parent: unknown, { propertyId }: { propertyId: string }) => {
+            try {
+              return await Room.find({ propertyId });
+            } catch (error) {
+              console.error("Error fetching rooms", error);
+              throw new Error("Failed to fetch rooms");
+            }
+          }
+        },
     Mutation: {
         // Creates a new user account and returns an authentication token
         createUser: async (_parent: unknown, { username, email, password }: CreateUserArgs): Promise<{ token: string, user: CreateUserArgs }> => {
@@ -125,7 +142,58 @@ const resolvers = {
                 console.error("Error deleting property", error);
                 throw new Error("Failed to delete property");
             }
-        }
+        },
+        // Add a new room
+        addRoom: async (_parent: unknown, { input }: { input: RoomInput }, context: any) => {
+            if (!context.user) {
+            throw new AuthenticationError("User not logged in");
+            }
+            try {
+            const newRoom = await Room.create({ ...input, userId: context.user._id });
+            return newRoom;
+            } catch (error) {
+            console.error("Error adding room", error);
+            throw new Error("Failed to add room");
+         }
+        },
+        // Update a room
+        updateRoom: async (_parent: unknown, { id, input }: { id: string, input: RoomInput }, context: any) => {
+            if (!context.user) {
+              throw new AuthenticationError("User not logged in");
+            }
+          
+            const room = await Room.findById(id);
+            if (!room) {
+              throw new Error("Room not found");
+            }
+          
+            const property = await Property.findById(room.propertyId);
+            if (!property || property.userId.toString() !== context.user._id.toString()) {
+              throw new Error("Unauthorized to update this room");
+            }
+          
+            const updatedRoom = await Room.findByIdAndUpdate(id, { $set: input }, { new: true, runValidators: true });
+            return updatedRoom;
+          },          
+        // Delete a room
+        deleteRoom: async (_parent: unknown, { id }: { id: string }, context: any) => {
+            if (!context.user) {
+              throw new AuthenticationError("User not logged in");
+            }
+          
+            const room = await Room.findById(id);
+            if (!room) {
+              throw new Error("Room not found");
+            }
+          
+            const property = await Property.findById(room.propertyId);
+            if (!property || property.userId.toString() !== context.user._id.toString()) {
+              throw new Error("Unauthorized to delete this room");
+            }
+          
+            await Room.findByIdAndDelete(id);
+            return true;
+          },          
     }
 };
 
