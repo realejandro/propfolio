@@ -13,6 +13,7 @@ import {
 } from '@chakra-ui/react';
 import { useToast } from '@chakra-ui/toast';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Property } from '../models/Property';
 import { useMutation } from '@apollo/client';
 import { UPDATE_PROPERTY } from '../utils/mutations';
@@ -24,6 +25,7 @@ interface PropertyCardProps {
 
 const PropertyCard = ({ property, onDelete }: PropertyCardProps) => {
   const toast = useToast();
+  const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
 
   const [editValues, setEditValues] = useState({
@@ -127,73 +129,78 @@ const PropertyCard = ({ property, onDelete }: PropertyCardProps) => {
         </Box>
 
         {isEditing ? (
-          <>
-            <Fieldset.Root>
-              <Field.Root>
-                <Field.Label>Square Footage</Field.Label>
-                <Input
-                  name="squareFootage"
-                  value={editValues.squareFootage.toString()}
+          <Fieldset.Root>
+            <Field.Root>
+              <Field.Label>Square Footage</Field.Label>
+              <Input
+                name="squareFootage"
+                value={editValues.squareFootage.toString()}
+                onChange={handleEditChange}
+              />
+            </Field.Root>
+            <Field.Root>
+              <Field.Label>Bedrooms</Field.Label>
+              <Input
+                name="bedrooms"
+                value={editValues.bedrooms.toString()}
+                onChange={handleEditChange}
+              />
+            </Field.Root>
+            <Field.Root>
+              <Field.Label>Bathrooms</Field.Label>
+              <Input
+                name="bathrooms"
+                value={editValues.bathrooms.toString()}
+                onChange={handleEditChange}
+              />
+            </Field.Root>
+            <Field.Root>
+              <Field.Label>Location</Field.Label>
+              <Input
+                name="location"
+                value={editValues.location}
+                onChange={handleEditChange}
+              />
+            </Field.Root>
+            <Field.Root>
+              <Field.Label>Status</Field.Label>
+              <NativeSelect.Root>
+                <NativeSelect.Field
+                  name="status"
+                  value={editValues.status}
                   onChange={handleEditChange}
-                />
-              </Field.Root>
-              <Field.Root>
-                <Field.Label>Bedrooms</Field.Label>
-                <Input
-                  name="bedrooms"
-                  value={editValues.bedrooms.toString()}
-                  onChange={handleEditChange}
-                />
-              </Field.Root>
-              <Field.Root>
-                <Field.Label>Bathrooms</Field.Label>
-                <Input
-                  name="bathrooms"
-                  value={editValues.bathrooms.toString()}
-                  onChange={handleEditChange}
-                />
-              </Field.Root>
-              <Field.Root>
-                <Field.Label>Location</Field.Label>
-                <Input
-                  name="location"
-                  value={editValues.location}
-                  onChange={handleEditChange}
-                  placeholder="Enter location"
-                />
-              </Field.Root>
-              <Field.Root>
-                <Field.Label>Status</Field.Label>
-                <NativeSelect.Root>
-                  <NativeSelect.Field
-                    name="status"
-                    value={editValues.status}
-                    onChange={handleEditChange}
-                  >
-                    <option value="available">Available</option>
-                    <option value="rented">Rented</option>
-                    <option value="sold">Sold</option>
-                  </NativeSelect.Field>
-                  <NativeSelect.Indicator />
-                </NativeSelect.Root>
-              </Field.Root>
-              <Field.Root>
-                <Field.Label>Description</Field.Label>
-                <Textarea
-                  name="description"
-                  value={editValues.description}
-                  onChange={handleEditChange}
-                  placeholder="Description"
-                />
-              </Field.Root>
-            </Fieldset.Root>
-          </>
+                >
+                  <option value="available">Available</option>
+                  <option value="rented">Rented</option>
+                  <option value="sold">Sold</option>
+                </NativeSelect.Field>
+                <NativeSelect.Indicator />
+              </NativeSelect.Root>
+            </Field.Root>
+            <Field.Root>
+              <Field.Label>Description</Field.Label>
+              <Textarea
+                name="description"
+                value={editValues.description}
+                onChange={handleEditChange}
+                placeholder="Description"
+              />
+            </Field.Root>
+          </Fieldset.Root>
         ) : (
           <>
-            <Text><strong>Square Footage:</strong> {property.squareFootage} sqft</Text>
-            <Text><strong>Bedrooms:</strong> {property.bedrooms}</Text>
-            <Text><strong>Bathrooms:</strong> {property.bathrooms}</Text>
-            <Text><strong>Location:</strong> {property.location}</Text>
+            <Text>
+              <strong>Square Footage:</strong> {property.squareFootage} sqft
+            </Text>
+            <Text>
+              <strong>Bedrooms:</strong> {property.bedrooms}
+            </Text>
+            <Text>
+              <strong>Bathrooms:</strong> {property.bathrooms}
+            </Text>
+            <Text>
+              <strong>Location:</strong> {property.location}
+            </Text>
             {property.description && (
               <Text fontStyle="italic" color="gray.600">
                 {property.description}
@@ -202,7 +209,7 @@ const PropertyCard = ({ property, onDelete }: PropertyCardProps) => {
           </>
         )}
 
-        <Box display="flex" gap={3} pt={2}>
+        <Box display="flex" gap={3} pt={2} flexWrap="wrap">
           {isEditing ? (
             <>
               <Button size="sm" colorScheme="green" onClick={handleSave}>
@@ -220,6 +227,20 @@ const PropertyCard = ({ property, onDelete }: PropertyCardProps) => {
               <Button size="sm" colorScheme="red" onClick={() => onDelete(property._id)}>
                 Delete
               </Button>
+              <Button
+                size="sm"
+                colorScheme="purple"
+                onClick={() => navigate(`/properties/${property._id}/rooms`)}
+              >
+                View Rooms
+              </Button>
+              <Button
+                size="sm"
+                colorScheme="teal"
+                onClick={() => navigate(`/properties/${property._id}/add-room`)}
+              >
+                Add a Room
+              </Button>
             </>
           )}
         </Box>
@@ -229,6 +250,9 @@ const PropertyCard = ({ property, onDelete }: PropertyCardProps) => {
 };
 
 export default PropertyCard;
+
+
+
 
 
 

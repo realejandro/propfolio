@@ -38,7 +38,6 @@ export const CREATE_USER = gql`
   }
 `;
 
-
 export const ADD_PROPERTY = gql`
   mutation AddProperty($input: PropertyInput!) {
     addProperty(input: $input) {
@@ -78,3 +77,43 @@ export const DELETE_PROPERTY = gql`
     deleteProperty(id: $id)
   }
 `;
+
+// NEW: Add a room to a property
+export const ADD_ROOM = gql`
+  mutation AddRoom($input: RoomInput!) {
+    addRoom(input: $input) {
+      _id
+      propertyId
+      title
+      squareFootage
+      photo
+      description
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+// NEW: Update a specific room
+export const UPDATE_ROOM = gql`
+  mutation UpdateRoom($id: ID!, $input: RoomInput!) {
+    updateRoom(id: $id, input: $input) {
+      _id
+      propertyId
+      title
+      squareFootage
+      photo
+      description
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+// NEW: Delete a room
+export const DELETE_ROOM = gql`
+  mutation DeleteRoom($id: ID!) {
+    deleteRoom(id: $id)
+  }
+`;
+
