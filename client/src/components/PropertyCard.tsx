@@ -17,6 +17,8 @@ import { useNavigate } from 'react-router-dom';
 import { Property } from '../models/Property';
 import { useMutation } from '@apollo/client';
 import { UPDATE_PROPERTY } from '../utils/mutations';
+import { Carousel } from 'react-responsive-carousel'; // ✅ NEW
+import 'react-responsive-carousel/lib/styles/carousel.min.css'; // ✅ NEW
 
 interface PropertyCardProps {
   property: Property;
@@ -83,24 +85,32 @@ const PropertyCard = ({ property, onDelete }: PropertyCardProps) => {
   };
 
   return (
-    <Box
-      borderWidth="1px"
-      borderRadius="lg"
-      overflow="hidden"
-      boxShadow="sm"
-      p={4}
-      bg="white"
-    >
+    <Box borderWidth="1px" borderRadius="lg" overflow="hidden" boxShadow="sm" p={4} bg="white">
       <Box display="flex" flexDirection="column" gap={3}>
-        {property.photo && (
-          <Image
-            src={property.photo}
-            alt="Property image"
-            borderRadius="md"
-            objectFit="cover"
-            w="100%"
-            h="200px"
-          />
+
+        {/* ✅ NEW: Carousel for displaying multiple photos */}
+        {property.photos && property.photos.length > 0 && (
+          <Carousel
+            showThumbs={false}
+            infiniteLoop
+            autoPlay
+            interval={5000}
+            dynamicHeight={false}
+            showStatus={false}
+          >
+            {property.photos.map((photo, index) => (
+              <div key={index}>
+                <Image
+                  src={photo}
+                  alt={`Property image ${index + 1}`}
+                  borderRadius="md"
+                  objectFit="cover"
+                  w="100%"
+                  h="200px"
+                />
+              </div>
+            ))}
+          </Carousel>
         )}
 
         <Box display="flex" justifyContent="space-between" alignItems="flex-start">
@@ -132,44 +142,24 @@ const PropertyCard = ({ property, onDelete }: PropertyCardProps) => {
           <Fieldset.Root>
             <Field.Root>
               <Field.Label>Square Footage</Field.Label>
-              <Input
-                name="squareFootage"
-                value={editValues.squareFootage.toString()}
-                onChange={handleEditChange}
-              />
+              <Input name="squareFootage" value={editValues.squareFootage.toString()} onChange={handleEditChange} />
             </Field.Root>
             <Field.Root>
               <Field.Label>Bedrooms</Field.Label>
-              <Input
-                name="bedrooms"
-                value={editValues.bedrooms.toString()}
-                onChange={handleEditChange}
-              />
+              <Input name="bedrooms" value={editValues.bedrooms.toString()} onChange={handleEditChange} />
             </Field.Root>
             <Field.Root>
               <Field.Label>Bathrooms</Field.Label>
-              <Input
-                name="bathrooms"
-                value={editValues.bathrooms.toString()}
-                onChange={handleEditChange}
-              />
+              <Input name="bathrooms" value={editValues.bathrooms.toString()} onChange={handleEditChange} />
             </Field.Root>
             <Field.Root>
               <Field.Label>Location</Field.Label>
-              <Input
-                name="location"
-                value={editValues.location}
-                onChange={handleEditChange}
-              />
+              <Input name="location" value={editValues.location} onChange={handleEditChange} />
             </Field.Root>
             <Field.Root>
               <Field.Label>Status</Field.Label>
               <NativeSelect.Root>
-                <NativeSelect.Field
-                  name="status"
-                  value={editValues.status}
-                  onChange={handleEditChange}
-                >
+                <NativeSelect.Field name="status" value={editValues.status} onChange={handleEditChange}>
                   <option value="available">Available</option>
                   <option value="rented">Rented</option>
                   <option value="sold">Sold</option>
@@ -189,18 +179,10 @@ const PropertyCard = ({ property, onDelete }: PropertyCardProps) => {
           </Fieldset.Root>
         ) : (
           <>
-            <Text>
-              <strong>Square Footage:</strong> {property.squareFootage} sqft
-            </Text>
-            <Text>
-              <strong>Bedrooms:</strong> {property.bedrooms}
-            </Text>
-            <Text>
-              <strong>Bathrooms:</strong> {property.bathrooms}
-            </Text>
-            <Text>
-              <strong>Location:</strong> {property.location}
-            </Text>
+            <Text><strong>Square Footage:</strong> {property.squareFootage} sqft</Text>
+            <Text><strong>Bedrooms:</strong> {property.bedrooms}</Text>
+            <Text><strong>Bathrooms:</strong> {property.bathrooms}</Text>
+            <Text><strong>Location:</strong> {property.location}</Text>
             {property.description && (
               <Text fontStyle="italic" color="gray.600">
                 {property.description}
@@ -227,18 +209,10 @@ const PropertyCard = ({ property, onDelete }: PropertyCardProps) => {
               <Button size="sm" colorScheme="red" onClick={() => onDelete(property._id)}>
                 Delete
               </Button>
-              <Button
-                size="sm"
-                colorScheme="purple"
-                onClick={() => navigate(`/properties/${property._id}/rooms`)}
-              >
+              <Button size="sm" colorScheme="purple" onClick={() => navigate(`/properties/${property._id}/rooms`)}>
                 View Rooms
               </Button>
-              <Button
-                size="sm"
-                colorScheme="teal"
-                onClick={() => navigate(`/properties/${property._id}/add-room`)}
-              >
+              <Button size="sm" colorScheme="teal" onClick={() => navigate(`/properties/${property._id}/add-room`)}>
                 Add a Room
               </Button>
             </>
@@ -250,6 +224,7 @@ const PropertyCard = ({ property, onDelete }: PropertyCardProps) => {
 };
 
 export default PropertyCard;
+
 
 
 

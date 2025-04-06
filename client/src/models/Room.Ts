@@ -3,8 +3,7 @@ export interface Room {
     propertyId: string;
     title: string;
     squareFootage: number;
-    photo?: string;
-    description?: string;
+    photos: string[]; // Changed from `photo?: string` to support multiple image URLs
     createdAt: string;
     updatedAt: string;
   }
@@ -13,7 +12,7 @@ export interface Room {
     propertyId: string;
     title: string;
     squareFootage: number;
-    photo?: string;
+    photos: string[]; // Same change for input when submitting new property
     description?: string;
   }
   

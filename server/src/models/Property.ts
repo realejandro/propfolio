@@ -7,7 +7,7 @@ export interface PropertyDocument extends Document {
   bathrooms: number;
   price: number;
   status: string;
-  photo?: string;
+  photos?: string[]; // updated from single photo to array
   description?: string;
   userId: Schema.Types.ObjectId;
 }
@@ -38,8 +38,9 @@ const propertySchema = new Schema<PropertyDocument>({
     enum: ['available', 'rented', 'sold'],
     default: 'available',
   },
-  photo: {
-    type: String,
+  photos: {
+    type: [String], // changed from single `photo` to array of URLs
+    default: [],
   },
   description: {
     type: String,
@@ -53,3 +54,4 @@ const propertySchema = new Schema<PropertyDocument>({
 
 const Property = model<PropertyDocument>('Property', propertySchema);
 export default Property;
+
