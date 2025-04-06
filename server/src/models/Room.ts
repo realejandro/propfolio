@@ -4,7 +4,7 @@ export interface IRoom extends Document {
   propertyId: mongoose.Types.ObjectId;
   title: string;
   squareFootage: number;
-  photo?: string;
+  photos?: string[]; // updated from single photo to array
   description?: string;
   createdAt: Date;
   updatedAt: Date;
@@ -25,8 +25,9 @@ const roomSchema = new Schema<IRoom>(
       type: Number,
       required: true,
     },
-    photo: {
-      type: String,
+    photos: {
+      type: [String], // changed from single `photo` to array of URLs
+      default: [],
     },
     description: {
       type: String,

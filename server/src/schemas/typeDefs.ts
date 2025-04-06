@@ -7,7 +7,7 @@ const typeDefs = `
         bathrooms: Int
         price: Int
         status: String
-        photo: String
+        photos: [String]   # changed from photo: String
         description: String
         userId: ID!
     }
@@ -17,7 +17,7 @@ const typeDefs = `
         propertyId: ID!
         title: String
         squareFootage: Int
-        photo: String
+        photos: [String]   # changed from photo: String
         description: String
         createdAt: String
         updatedAt: String
@@ -50,7 +50,7 @@ const typeDefs = `
         bathrooms: Int!
         price: Int!
         status: String!
-        photo: String
+        photos: [String]   # changed from photo: String
         description: String
     }
 
@@ -58,7 +58,7 @@ const typeDefs = `
         propertyId: ID!
         title: String!
         squareFootage: Int!
-        photo: String
+        photos: [String]   # changed from photo: String
         description: String
     }
 
@@ -77,3 +77,4 @@ const typeDefs = `
 `;
 
 export default typeDefs;
+

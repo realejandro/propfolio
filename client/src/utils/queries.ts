@@ -14,7 +14,7 @@ export const QUERY_ME = gql`
         bathrooms
         price
         status
-        photo
+        photos        # ✅ updated from photo
         description
         userId
       }
@@ -32,14 +32,13 @@ export const QUERY_USER_PROPERTIES = gql`
       bathrooms
       price
       status
-      photo
+      photos        # ✅ updated from photo
       description
       userId
     }
   }
 `;
 
-// NEW QUERY: Get all rooms associated with a specific property
 export const QUERY_ROOMS_BY_PROPERTY = gql`
   query GetRoomsByProperty($propertyId: ID!) {
     getRoomsByProperty(propertyId: $propertyId) {
@@ -47,10 +46,11 @@ export const QUERY_ROOMS_BY_PROPERTY = gql`
       propertyId
       title
       squareFootage
-      photo
+      photos        # ✅ updated from photo
       description
       createdAt
       updatedAt
     }
   }
 `;
+

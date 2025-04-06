@@ -9,29 +9,22 @@ import {
   Alert,
   NativeSelect,
   Text,
+  Spinner,
 } from '@chakra-ui/react';
 import { useToast } from '@chakra-ui/toast';
 import { useMutation } from '@apollo/client';
 import { ADD_PROPERTY } from '../utils/mutations';
 import { PropertyInput } from '../models/Property';
 import { QUERY_ME } from '../utils/queries';
-import { useNavigate } from 'react-router-dom'; // ✅ NEW
+import { useNavigate } from 'react-router-dom';
 
 interface AddPropertyFormProps {
   onPropertyAdded?: () => void;
 }
 
-const predefinedImages = [
-  '../assets/images/house1.jpeg',
-  '../assets/images/house2.jpeg',
-  '../assets/images/apartment1.jpeg',
-  '../assets/images/apartment2.jpeg',
-  '../assets/images/house3.jpeg',
-];
-
 const AddPropertyForm = ({ onPropertyAdded }: AddPropertyFormProps) => {
   const toast = useToast();
-  const navigate = useNavigate(); // ✅ NEW
+  const navigate = useNavigate();
 
   const [formState, setFormState] = useState<PropertyInput>({
     squareFootage: 0,
@@ -39,12 +32,14 @@ const AddPropertyForm = ({ onPropertyAdded }: AddPropertyFormProps) => {
     bathrooms: 0,
     price: 0,
     status: 'available',
-    photo: '',
+    photos: [],
     description: '',
     location: '',
   });
 
+  const [uploading, setUploading] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
   const [addProperty, { error }] = useMutation(ADD_PROPERTY, {
     refetchQueries: [{ query: QUERY_ME }],
     awaitRefetchQueries: true,
@@ -57,7 +52,6 @@ const AddPropertyForm = ({ onPropertyAdded }: AddPropertyFormProps) => {
 
     if (["price", "squareFootage", "bedrooms", "bathrooms"].includes(name)) {
       const parsed = parseInt(value);
-
       if (isNaN(parsed) || parsed <= 0 || value.includes('.')) {
         setErrors((prev) => ({ ...prev, [name]: 'Must be a positive whole number greater than zero' }));
       } else {
@@ -77,8 +71,70 @@ const AddPropertyForm = ({ onPropertyAdded }: AddPropertyFormProps) => {
     }
   };
 
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files) return;
+  
+    console.log('📤 Starting file upload...');
+    setUploading(true);
+    const uploadedUrls: string[] = [];
+  
+    for (const file of Array.from(files)) {
+      const formData = new FormData();
+      formData.append('images', file); // ✅ FIXED field name
+  
+      try {
+        const res = await fetch('http://localhost:3001/api/upload-multiple', {
+          method: 'POST',
+          body: formData,
+        });
+        
+        const data = await res.json();
+        if (res.ok && data.url) {
+          console.log(`✅ Uploaded ${file.name}:`, data.url);
+          uploadedUrls.push(data.url);
+        } else if (res.ok && data.urls) {
+          // ✅ Cloudinary multiple-upload returns "urls" array
+          data.urls.forEach((url: string) => {
+            console.log(`✅ Uploaded:`, url);
+            uploadedUrls.push(url);
+          });
+        } else {
+          throw new Error(data.message || 'Upload failed');
+        }
+      } catch (error) {
+        console.error('Upload error:', error);
+        toast({
+          title: 'Upload failed',
+          description: 'One or more images failed to upload.',
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        });
+      }
+    }
+  
+    console.log('✅ All uploaded URLs:', uploadedUrls);
+    setFormState((prev) => ({ ...prev, photos: [...prev.photos, ...uploadedUrls] }));
+    setUploading(false);
+  };
+  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('🚦Submitting form. Uploading =', uploading);
+    console.log('📦 Final formState before mutation:', formState);
+
+    if (uploading) {
+      toast({
+        title: 'Uploading images...',
+        description: 'Please wait for image upload to finish before submitting.',
+        status: 'info',
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
 
     const requiredFields = ["squareFootage", "bedrooms", "bathrooms", "price"];
     let formIsValid = true;
@@ -113,8 +169,6 @@ const AddPropertyForm = ({ onPropertyAdded }: AddPropertyFormProps) => {
       });
 
       onPropertyAdded?.();
-
-      // ✅ Redirect to PropertyPage
       navigate('/properties');
 
       setFormState({
@@ -123,13 +177,13 @@ const AddPropertyForm = ({ onPropertyAdded }: AddPropertyFormProps) => {
         bathrooms: 0,
         price: 0,
         status: 'available',
-        photo: '',
+        photos: [],
         description: '',
         location: '',
       });
       setErrors({});
     } catch (err) {
-      console.error(err);
+      console.error('❌ Mutation error:', err);
     }
   };
 
@@ -145,63 +199,34 @@ const AddPropertyForm = ({ onPropertyAdded }: AddPropertyFormProps) => {
       <Fieldset.Root>
         <Fieldset.Legend>Add New Property</Fieldset.Legend>
 
+        {/* Existing form fields below (unchanged) */}
         <Field.Root>
           <Field.Label>Location</Field.Label>
-          <Input
-            name="location"
-            value={formState.location}
-            onChange={handleChange}
-            type="text"
-            placeholder="e.g. 123 Main St, Springfield"
-          />
+          <Input name="location" value={formState.location} onChange={handleChange} />
           {errors.location && <Text color="red.500" fontSize="sm">{errors.location}</Text>}
         </Field.Root>
 
         <Field.Root>
           <Field.Label>Square Footage</Field.Label>
-          <Input
-            name="squareFootage"
-            value={formState.squareFootage || ''}
-            onChange={handleChange}
-            type="text"
-            inputMode="numeric"
-          />
+          <Input name="squareFootage" value={formState.squareFootage || ''} onChange={handleChange} />
           {errors.squareFootage && <Text color="red.500" fontSize="sm">{errors.squareFootage}</Text>}
         </Field.Root>
 
         <Field.Root>
           <Field.Label>Bedrooms</Field.Label>
-          <Input
-            name="bedrooms"
-            value={formState.bedrooms || ''}
-            onChange={handleChange}
-            type="text"
-            inputMode="numeric"
-          />
+          <Input name="bedrooms" value={formState.bedrooms || ''} onChange={handleChange} />
           {errors.bedrooms && <Text color="red.500" fontSize="sm">{errors.bedrooms}</Text>}
         </Field.Root>
 
         <Field.Root>
           <Field.Label>Bathrooms</Field.Label>
-          <Input
-            name="bathrooms"
-            value={formState.bathrooms || ''}
-            onChange={handleChange}
-            type="text"
-            inputMode="numeric"
-          />
+          <Input name="bathrooms" value={formState.bathrooms || ''} onChange={handleChange} />
           {errors.bathrooms && <Text color="red.500" fontSize="sm">{errors.bathrooms}</Text>}
         </Field.Root>
 
         <Field.Root>
           <Field.Label>Price</Field.Label>
-          <Input
-            name="price"
-            value={formState.price || ''}
-            onChange={handleChange}
-            type="text"
-            inputMode="numeric"
-          />
+          <Input name="price" value={formState.price || ''} onChange={handleChange} />
           {errors.price && <Text color="red.500" fontSize="sm">{errors.price}</Text>}
         </Field.Root>
 
@@ -217,28 +242,32 @@ const AddPropertyForm = ({ onPropertyAdded }: AddPropertyFormProps) => {
           </NativeSelect.Root>
         </Field.Root>
 
+        {/* ✅ Image Upload Field */}
         <Field.Root>
-          <Field.Label>Choose Photo</Field.Label>
-          <NativeSelect.Root>
-            <NativeSelect.Field name="photo" value={formState.photo} onChange={handleChange}>
-              <option value="">Select an image</option>
-              {predefinedImages.map((src, index) => (
-                <option key={index} value={src}>
-                  Image {index + 1}
-                </option>
-              ))}
-            </NativeSelect.Field>
-            <NativeSelect.Indicator />
-          </NativeSelect.Root>
+          <Field.Label>Upload Photos</Field.Label>
+          <Input
+            type="file"
+            accept=".jpg,.png"
+            multiple
+            onChange={handleFileUpload}
+            disabled={uploading}
+          />
+          {uploading && <Spinner size="sm" mt={2} />}
         </Field.Root>
 
         <Field.Root>
           <Field.Label>Description</Field.Label>
-          <Textarea name="description" value={formState.description} onChange={handleChange} placeholder="Optional" />
+          <Textarea name="description" value={formState.description} onChange={handleChange} />
         </Field.Root>
       </Fieldset.Root>
 
-      <Button mt={4} colorScheme="teal" type="submit" w="full">
+      <Button
+        mt={4}
+        colorScheme="teal"
+        type="submit"
+        w="full"
+        disabled={uploading} // ✅ Ensures form can't submit during uploads
+      >
         Add Property
       </Button>
     </Box>
@@ -246,6 +275,8 @@ const AddPropertyForm = ({ onPropertyAdded }: AddPropertyFormProps) => {
 };
 
 export default AddPropertyForm;
+
+
 
 
 

@@ -29,7 +29,7 @@ export const CREATE_USER = gql`
           bathrooms
           price
           status
-          photo
+          photos           # ✅ updated from photo
           description
           userId
         }
@@ -48,7 +48,7 @@ export const ADD_PROPERTY = gql`
       bathrooms
       price
       status
-      photo
+      photos            # ✅ updated from photo
       description
       userId
     }
@@ -65,7 +65,7 @@ export const UPDATE_PROPERTY = gql`
       bathrooms
       price
       status
-      photo
+      photos            # ✅ updated from photo
       description
       userId
     }
@@ -78,7 +78,6 @@ export const DELETE_PROPERTY = gql`
   }
 `;
 
-// NEW: Add a room to a property
 export const ADD_ROOM = gql`
   mutation AddRoom($input: RoomInput!) {
     addRoom(input: $input) {
@@ -86,7 +85,7 @@ export const ADD_ROOM = gql`
       propertyId
       title
       squareFootage
-      photo
+      photos            # ✅ updated from photo
       description
       createdAt
       updatedAt
@@ -94,7 +93,6 @@ export const ADD_ROOM = gql`
   }
 `;
 
-// NEW: Update a specific room
 export const UPDATE_ROOM = gql`
   mutation UpdateRoom($id: ID!, $input: RoomInput!) {
     updateRoom(id: $id, input: $input) {
@@ -102,7 +100,7 @@ export const UPDATE_ROOM = gql`
       propertyId
       title
       squareFootage
-      photo
+      photos            # ✅ updated from photo
       description
       createdAt
       updatedAt
@@ -110,10 +108,10 @@ export const UPDATE_ROOM = gql`
   }
 `;
 
-// NEW: Delete a room
 export const DELETE_ROOM = gql`
   mutation DeleteRoom($id: ID!) {
     deleteRoom(id: $id)
   }
 `;
+
 
