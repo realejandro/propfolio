@@ -1,7 +1,7 @@
 import { Box, Button, Container, Link, Separator, Text } from '@chakra-ui/react';
 import { ModalLogin } from './ModalLogin';
 import { ModalSignUp } from './ModalSignUp';
-import Auth from '../utils/auth';
+import Auth from '../utils/auth/auth';
 import { useNavigate } from 'react-router-dom';
 
 const AppNavbar = () => {
@@ -51,7 +51,7 @@ const AppNavbar = () => {
                 css={{ backgroundColor: "rgba(0,0,0,0)", color: 'white'}}
                 onClick={ addProperty }
               >
-              Add property
+              Add Property
               </Button>
               <Button 
                 size="sm" 

@@ -13,7 +13,7 @@ import {
   import { useState } from 'react';
   import { useMutation } from '@apollo/client';
   import { Room } from '../models/Room';
-  import { UPDATE_ROOM } from '../utils/mutations';
+  import { UPDATE_ROOM } from '../utils/graphql/mutations';
   
   interface RoomCardProps {
     room: Room;

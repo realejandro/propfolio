@@ -8,10 +8,10 @@ import {
   SimpleGrid,
   Container,
 } from '@chakra-ui/react';
-import { QUERY_ME } from '../utils/queries';
-import { DELETE_PROPERTY } from '../utils/mutations';
-import PropertyCard from '../components/PropertyCard';
-import Auth from '../utils/auth';
+import { QUERY_ME } from '../utils/graphql/queries';
+import { DELETE_PROPERTY } from '../utils/graphql/mutations';
+import PropertyCard from '../components/PropertyCard/PropertyCard';
+import Auth from '../utils/auth/auth';
 import { Property } from '../models/Property';
 
 const PropertyPage = () => {
@@ -55,6 +55,7 @@ const PropertyPage = () => {
     >
       <Heading
         mb={6}
+        textAlign="center"
         fontSize={['2xl', '3xl']} // Responsive font size for heading
       >
         My Saved Properties

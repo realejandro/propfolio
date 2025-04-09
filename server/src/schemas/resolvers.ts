@@ -16,11 +16,13 @@ interface PropertyInput {
   squareFootage: number;
   bedrooms: number;
   bathrooms: number;
-  price: number;
-  status: string;
-  photos?: string[]; // Updated from `photo` to `photos`
+  income?: number;            // NEW
+  status: 'available' | 'rented'; // restricted and renamed
+  photos?: string[];
   description?: string;
+  notes?: string;             // NEW
 }
+
 
 interface RoomInput {
   propertyId: string;

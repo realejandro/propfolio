@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Heading, Container } from '@chakra-ui/react';
-import Auth from '../utils/auth';
+import Auth from '../utils/auth/auth';
 import AddRoomForm from '../components/AddRoomForm';
 
 const AddRoomPage = () => {

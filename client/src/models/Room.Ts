@@ -4,6 +4,7 @@ export interface Room {
     title: string;
     squareFootage: number;
     photos: string[]; // Changed from `photo?: string` to support multiple image URLs
+    description?: string;
     createdAt: string;
     updatedAt: string;
   }

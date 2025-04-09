@@ -5,10 +5,11 @@ export interface PropertyDocument extends Document {
   squareFootage: number;
   bedrooms: number;
   bathrooms: number;
-  price: number;
-  status: string;
-  photos?: string[]; // updated from single photo to array
+  income?: number; // ✅ optional, used when rented
+  status: 'available' | 'rented'; // ✅ removed 'sold'
+  photos?: string[];
   description?: string;
+  notes?: string; // ✅ new
   userId: Schema.Types.ObjectId;
 }
 
@@ -29,21 +30,24 @@ const propertySchema = new Schema<PropertyDocument>({
     type: Number,
     required: true,
   },
-  price: {
+  income: {
     type: Number,
-    required: true,
+    required: false, // ✅ Only applicable for "rented"
   },
   status: {
     type: String,
-    enum: ['available', 'rented', 'sold'],
+    enum: ['available', 'rented'], // ✅ removed 'sold'
     default: 'available',
   },
   photos: {
-    type: [String], // changed from single `photo` to array of URLs
+    type: [String],
     default: [],
   },
   description: {
     type: String,
+  },
+  notes: {
+    type: String, // ✅ new field for user notes
   },
   userId: {
     type: Schema.Types.ObjectId,

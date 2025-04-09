@@ -11,6 +11,9 @@ const router = express.Router();
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
+// Valid MIME types for client-side + server-side filtering
+const validMimeTypes = ['image/jpeg', 'image/png'];
+
 // POST /api/upload-multiple
 router.post('/upload-multiple', upload.array('images', 10), async (req: Request, res: Response) => {
   try {
@@ -20,6 +23,14 @@ router.post('/upload-multiple', upload.array('images', 10), async (req: Request,
       return res.status(400).json({ message: 'No files uploaded' });
     }
 
+    // Validate each file's MIME type
+    const invalidFiles = files.filter(file => !validMimeTypes.includes(file.mimetype));
+    if (invalidFiles.length > 0) {
+      const invalidNames = invalidFiles.map(file => file.originalname).join(', ');
+      return res.status(400).json({ message: `Invalid file type(s): ${invalidNames}` });
+    }
+
+    // Upload each valid file to Cloudinary
     const uploadPromises = files.map((file) => {
       return new Promise<string>((resolve, reject) => {
         const uniqueFilename = uuidv4();
@@ -45,7 +56,8 @@ router.post('/upload-multiple', upload.array('images', 10), async (req: Request,
     });
 
     const uploadedUrls = await Promise.all(uploadPromises);
-    return res.status(200).json({ urls: uploadedUrls }); // send all Cloudinary image URLs
+
+    return res.status(200).json({ urls: uploadedUrls }); // ✅ Send Cloudinary URLs
   } catch (error: any) {
     console.error('Upload error:', error);
     return res.status(500).json({ message: 'Something went wrong during upload' });
@@ -53,4 +65,5 @@ router.post('/upload-multiple', upload.array('images', 10), async (req: Request,
 });
 
 export default router;
+
 

@@ -5,8 +5,8 @@ import { Box, Button, Field, Fieldset, Input } from "@chakra-ui/react";
 import { useState } from "react";
 import type { ChangeEvent, MouseEvent } from "react";
 import { useMutation } from "@apollo/client";
-import { LOGIN_USER } from "../utils/mutations";
-import Auth from "../utils/auth";
+import { LOGIN_USER } from "../utils/graphql/mutations";
+import Auth from "../utils/auth/auth";
 import { Alert } from  "@chakra-ui/react";
 
 
