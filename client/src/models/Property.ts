@@ -4,10 +4,11 @@ export interface Property {
   squareFootage: number;
   bedrooms: number;
   bathrooms: number;
-  price: number;
-  status: 'available' | 'rented' | 'sold';
-  photos: string[]; // Changed from `photo?: string` to support multiple image URLs
+  income?: number; // ✅ Only set if status is "rented"
+  status: 'available' | 'rented'; // ✅ Removed "sold"
+  photos: string[];
   description?: string;
+  notes?: string; // ✅ NEW: Optional notes for internal tracking
   userId: string;
 }
 
@@ -16,8 +17,10 @@ export interface PropertyInput {
   squareFootage: number;
   bedrooms: number;
   bathrooms: number;
-  price: number;
-  status: 'available' | 'rented' | 'sold';
-  photos: string[]; // Same change for input when submitting new property
+  income?: number; // ✅ Optional, only for rented
+  status: 'available' | 'rented'; // ✅ Removed "sold"
+  photos: string[];
   description?: string;
+  notes?: string; // ✅ Optional user notes
 }
+

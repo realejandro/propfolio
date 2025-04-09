@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
-import { QUERY_ROOMS_BY_PROPERTY } from '../utils/queries';
-import { DELETE_ROOM } from '../utils/mutations';
+import { QUERY_ROOMS_BY_PROPERTY } from '../utils/graphql/queries';
+import { DELETE_ROOM } from '../utils/graphql/mutations';
 import {
   Box,
   Heading,

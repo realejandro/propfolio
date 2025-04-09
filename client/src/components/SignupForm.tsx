@@ -1,7 +1,7 @@
 
 
 import { useMutation } from "@apollo/client";
-import { CREATE_USER } from "../utils/mutations";
+import { CREATE_USER } from "../utils/graphql/mutations";
 import { Alert, Box, Button, Field, Fieldset, Input, Text } from "@chakra-ui/react";
 import { ChangeEvent, MouseEvent, useState } from "react";
 import { User } from "../models/User";

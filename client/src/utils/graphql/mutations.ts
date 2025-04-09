@@ -27,9 +27,10 @@ export const CREATE_USER = gql`
           squareFootage
           bedrooms
           bathrooms
-          price
+          income              # NEW
+          notes               # NEW
           status
-          photos           # ✅ updated from photo
+          photos
           description
           userId
         }
@@ -46,9 +47,10 @@ export const ADD_PROPERTY = gql`
       squareFootage
       bedrooms
       bathrooms
-      price
+      income              # NEW
+      notes               # NEW
       status
-      photos            # ✅ updated from photo
+      photos
       description
       userId
     }
@@ -63,9 +65,10 @@ export const UPDATE_PROPERTY = gql`
       squareFootage
       bedrooms
       bathrooms
-      price
+      income              # NEW
+      notes               # NEW
       status
-      photos            # ✅ updated from photo
+      photos
       description
       userId
     }
@@ -85,7 +88,7 @@ export const ADD_ROOM = gql`
       propertyId
       title
       squareFootage
-      photos            # ✅ updated from photo
+      photos
       description
       createdAt
       updatedAt
@@ -100,7 +103,7 @@ export const UPDATE_ROOM = gql`
       propertyId
       title
       squareFootage
-      photos            # ✅ updated from photo
+      photos
       description
       createdAt
       updatedAt

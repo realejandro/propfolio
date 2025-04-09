@@ -11,8 +11,8 @@ import {
 } from '@chakra-ui/react';
 import { useToast } from '@chakra-ui/toast';
 import { useMutation } from '@apollo/client';
-import { ADD_ROOM } from '../utils/mutations';
-import { QUERY_ROOMS_BY_PROPERTY } from '../utils/queries';
+import { ADD_ROOM } from '../utils/graphql/mutations';
+import { QUERY_ROOMS_BY_PROPERTY } from '../utils/graphql/queries';
 import { RoomInput } from '../models/Room';
 import { useNavigate } from 'react-router-dom';
 

@@ -12,9 +12,10 @@ export const QUERY_ME = gql`
         squareFootage
         bedrooms
         bathrooms
-        price
+        income            # NEW
+        notes             # NEW
         status
-        photos        # ✅ updated from photo
+        photos            
         description
         userId
       }
@@ -30,9 +31,10 @@ export const QUERY_USER_PROPERTIES = gql`
       squareFootage
       bedrooms
       bathrooms
-      price
+      income            # NEW
+      notes             # NEW
       status
-      photos        # ✅ updated from photo
+      photos
       description
       userId
     }
@@ -46,11 +48,13 @@ export const QUERY_ROOMS_BY_PROPERTY = gql`
       propertyId
       title
       squareFootage
-      photos        # ✅ updated from photo
+      photos
       description
       createdAt
       updatedAt
     }
   }
 `;
+
+
 

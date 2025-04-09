@@ -5,10 +5,11 @@ const typeDefs = `
         squareFootage: Int
         bedrooms: Int
         bathrooms: Int
-        price: Int
-        status: String
-        photos: [String]   # changed from photo: String
+        income: Int          # ✅ NEW: monthly rental income
+        status: String       
+        photos: [String]
         description: String
+        notes: String        # ✅ NEW: user notes
         userId: ID!
     }
 
@@ -17,7 +18,7 @@ const typeDefs = `
         propertyId: ID!
         title: String
         squareFootage: Int
-        photos: [String]   # changed from photo: String
+        photos: [String]
         description: String
         createdAt: String
         updatedAt: String
@@ -48,17 +49,18 @@ const typeDefs = `
         squareFootage: Int!
         bedrooms: Int!
         bathrooms: Int!
-        price: Int!
+        income: Int          # ✅ NEW: rental income if status is "rented"
         status: String!
-        photos: [String]   # changed from photo: String
+        photos: [String]
         description: String
+        notes: String        # ✅ NEW: user notes
     }
 
     input RoomInput {
         propertyId: ID!
         title: String!
         squareFootage: Int!
-        photos: [String]   # changed from photo: String
+        photos: [String]
         description: String
     }
 
@@ -77,4 +79,5 @@ const typeDefs = `
 `;
 
 export default typeDefs;
+
 
